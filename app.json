@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "Sgn sistemas",
+    "slug": "sgn_mobile",
+    "version": "15.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/img/iconSgn1.png",
+    "userInterfaceStyle": "light",
+    "notification":{
+      "icon":"./src/assets/img/iconSgn1.png"
+    },
+    "splash": {
+      "image": "./src/assets/img/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/0f9cb77e-4c00-4a14-8951-ced04f6e6c41"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false,
+      "buildNumber": "1",
+      "bundleIdentifier": "Y"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/img/iconeSGN.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.inova_sgn.sgn_mobile",
+      "versionCode": 15
+    },
+    "web": {
+      "favicon": "./src/assets/img/logo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0f9cb77e-4c00-4a14-8951-ced04f6e6c41"
+      }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./src/assets/img/iconSgn1.png",
+          "color": "#f1f1f1",
+          "sounds": [],
+          "androidMode": "default",
+          "androidCollapsedTitle": "Sgn mobile",
+          "iosDisplayInForeground": true,
+          "mode": "production"
+        }
+      ]
+    ],
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    }
+  }
+}

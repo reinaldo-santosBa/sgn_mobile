@@ -1,0 +1,15 @@
+step 1
+    Setor compras
+    Almoxarifado
+    CR
+    Item pcg
+step 2
+    funcionario
+    data nece
+    aprov1 
+    aprov2
+step 3
+    produto/servico
+    unidade de medida
+    quantidade
+    
