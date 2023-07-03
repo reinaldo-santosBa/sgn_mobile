@@ -50,11 +50,15 @@ const ScrollViewMenu : React.FC = () => {
 
             image={require('../../../assets/img/modulos_novos/pagar.png')}
 
-            disabled={true}
+            disabled={false}
 
             text={'Pagar'}
 
-            onPress={() => { return 1 }}
+            onPress={
+              () => {
+                navigation.navigate('PagarHome')
+              }
+            }
           />
 
           <MenuButtons

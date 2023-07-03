@@ -25,6 +25,8 @@ import DetalheContratoBulletinServico from '../pages/DetalheContratoBulletinServ
 import PurchaseWorksheet from '../pages/purchaseWorksheet'
 import DetailsPurchaseWorksheet from '../pages/detailsPurchaseWorksheet'
 import PriceDetailsPurchaseWorksheet from '../pages/priceDetailsPurchaseWorksheet'
+import PagarHome from '../pages/pagarHome'
+import AcceptPay from '../pages/acceptPay'
 
 export type RootStackParamList = {
     SplashScreen: undefined;
@@ -119,6 +121,43 @@ export type RootStackParamList = {
         PLAF_FORN_COD: string;
         PLAC_COD: string;
     };
+    PagarHome: undefined;
+    AcceptPay: undefined
+    DetalhePagar: {
+        cere_nome: string;
+        cere_sigla: string;
+        empr_nome: string;
+        forn_aliquota_ir_pj: number;
+        forn_nome: string;
+        itpc_desc: string;
+        itpc_sigla: string;
+        sttr_desc: string;
+        trpg_cod: number,
+        trpg_dtemis: string;
+        trpg_dtorigem: string;
+        trpg_dtrecebimento: string;
+        trpg_empr_cod: number;
+        trpg_forn_cod: number;
+        trpg_num_doc: string;
+        trpg_obs: string;
+        trpg_rate_cod: number;
+        trpg_sttr_cod: string;
+        trpg_tipo_doc: string;
+        trpg_valbruto: string;
+        trpg_valdesconto: number;
+        trpg_valjur: number;
+        trpg_valmulta: number;
+        trpp_cere_cod: number;
+        trpp_cod: string;
+        trpp_dtvenc: string;
+        trpp_itpc_cod: number;
+        trpp_obs: string;
+        trpp_sigla: string;
+        trpp_sttr_cod: string;
+        trpp_valdesc: number;
+        trpp_valjur: number;
+        trpp_valprev: number;
+    }
 };
 
 const AuthStack = createNativeStackNavigator<RootStackParamList>()
@@ -348,6 +387,25 @@ const AuthRoutesSplash = () => {
                 name="PriceDetailsPurchaseWorksheet"
 
                 component={PriceDetailsPurchaseWorksheet}
+
+                options={{ headerShown: false }}
+
+            />
+            <AuthStack.Screen
+
+                name="PagarHome"
+
+                component={PagarHome}
+
+                options={{ headerShown: false }}
+
+            />
+
+            <AuthStack.Screen
+
+                name="AcceptPay"
+
+                component={AcceptPay}
 
                 options={{ headerShown: false }}
 

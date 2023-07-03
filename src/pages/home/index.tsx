@@ -34,9 +34,6 @@ const Home: React.FC = () => {
   useEffect(() => {
     (
       async () => {
-        console.log('====================================')
-        alert((await Notifications.getExpoPushTokenAsync()).data)
-        console.log('====================================')
         const { status: existingStatus } = await Notifications.getPermissionsAsync()
         let finalStatus = existingStatus
         if (existingStatus !== 'granted') {

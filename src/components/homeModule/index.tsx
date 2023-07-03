@@ -24,6 +24,13 @@ const HomeModule: React.FC<Iprops> = ({ textModule, module }) => {
         />
         : ''
       }
+      {module === 'pagar'
+        ? <C.IconModule
+          source={require('../../assets/img/modulos_novos/pagar.png')}
+          resizeMode='contain'
+        />
+        : ''
+      }
         <C.Tittle>O que é o {module}?</C.Tittle>
         <C.TextContent>
           {textModule}

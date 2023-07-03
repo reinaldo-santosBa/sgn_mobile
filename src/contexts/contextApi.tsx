@@ -32,6 +32,12 @@ interface IarrayContratoServicoBulletin {
   fornCod: string;
 }
 
+interface IarrayPagar {
+  trppCod: string;
+  cereCod: string;
+  valor: number;
+}
+
 interface IAuthContext {
   id:string,
   refreshToken:string,
@@ -69,6 +75,8 @@ interface IAuthContext {
   setAtt: React.Dispatch<SetStateAction<boolean>>;
   token: string;
   setToken: React.Dispatch<SetStateAction<string>>;
+  arrayPagar: Array<IarrayPagar>;
+  setArrayPagar: React.Dispatch<SetStateAction<IarrayPagar[]>>;
 }
 
 interface IProvider {
@@ -94,6 +102,8 @@ export const AuthContextProvider : React.FC<IProvider> = ({ children }) => {
   const [att, setAtt] = useState(false)
   const [token, setToken] = useState('')
   const [arrayPurchaseWorksheet, setArrayPurchaseWorksheet] = useState([])
+  const [arrayPagar, setArrayPagar] = useState([])
+
   const linkSGN = 'http://129.148.50.73:9005'
   return (
 
@@ -137,7 +147,9 @@ export const AuthContextProvider : React.FC<IProvider> = ({ children }) => {
               token,
               setToken,
               arrayPurchaseWorksheet,
-              setArrayPurchaseWorksheet
+              setArrayPurchaseWorksheet,
+              arrayPagar,
+              setArrayPagar
             }
 
         }
