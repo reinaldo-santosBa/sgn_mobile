@@ -35,15 +35,9 @@ const AcceptPay: React.FC = () => {
     setLoading(false)
     api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
       .then((json) => {
-        console.log('====================================')
-        console.log(1)
-        console.log('====================================')
         const acessToken = json.data.acessToken
         api.get('pagar', { headers: { Authorization: `Bearer ${acessToken}` } })
           .then((json) => {
-            console.log('====================================')
-            console.log(json.data)
-            console.log('====================================')
             setResponse(json.data)
             setLoading(true)
           })
@@ -66,10 +60,7 @@ const AcceptPay: React.FC = () => {
             }
           })
       })
-      .catch((e) => {
-        console.log('====================================')
-        console.log(e)
-        console.log('====================================')
+      .catch(() => {
         setLoading(true)
         setModalAlert(!modalAlert)
       })
