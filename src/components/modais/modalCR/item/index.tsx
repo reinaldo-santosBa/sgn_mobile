@@ -13,9 +13,6 @@ interface props{
   tircCod: string;
 }
 export const ItemCr: React.FC<props> = ({ nome, onChange, modalChange, cod, setCereDesc, setPlgcCod, plgcCod, setTircCod, tircCod }) => {
-  console.log('====================================')
-  console.log(plgcCod, tircCod)
-  console.log('====================================')
   return (
     <S.AreaSelect
 

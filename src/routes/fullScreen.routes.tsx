@@ -27,6 +27,7 @@ import DetailsPurchaseWorksheet from '../pages/detailsPurchaseWorksheet'
 import PriceDetailsPurchaseWorksheet from '../pages/priceDetailsPurchaseWorksheet'
 import PagarHome from '../pages/pagarHome'
 import AcceptPay from '../pages/acceptPay'
+import DetalhePay from '../pages/detalhePay'
 
 export type RootStackParamList = {
     SplashScreen: undefined;
@@ -123,7 +124,7 @@ export type RootStackParamList = {
     };
     PagarHome: undefined;
     AcceptPay: undefined
-    DetalhePagar: {
+    DetalhePay: {
         cere_nome: string;
         cere_sigla: string;
         empr_nome: string;
@@ -410,6 +411,16 @@ const AuthRoutesSplash = () => {
                 options={{ headerShown: false }}
 
             />
+
+          <AuthStack.Screen
+
+              name="DetalhePay"
+
+              component={DetalhePay}
+
+              options={{ headerShown: false }}
+
+          />
 
         </AuthStack.Navigator>
   )

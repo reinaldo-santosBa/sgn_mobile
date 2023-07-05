@@ -83,9 +83,7 @@ const ScrollViewMenu : React.FC = () => {
             text={'Bancario'}
             disabled={true}
             onPress={() => {
-              console.log('====================================')
-              console.log(1)
-              console.log('====================================')
+              return 1
             }}
 
           />
@@ -173,9 +171,7 @@ const ScrollViewMenu : React.FC = () => {
             text={'Estoque'}
 
             onPress={() => {
-              console.log('====================================')
-              console.log(1)
-              console.log('====================================')
+              return 1
             }}
 
           />

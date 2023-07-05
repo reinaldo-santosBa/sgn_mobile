@@ -119,9 +119,6 @@ const CardPedido: React.FC<props> = ({ datas, responseFunc }: props) => {
         setArrayPedido(
           arrayPedido.filter(
             (item) => {
-              console.log('====================================')
-              console.log(item[0].pediCod, datas.item.PEDI_COD)
-              console.log('====================================')
               if (item[0].pediCod !== datas.item.PEDI_COD) {
                 return true
               }

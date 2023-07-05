@@ -45,9 +45,6 @@ const ModalSelectMaterial: React.FC<props> = ({ onChange, modalChange, setmateDe
                 { headers: { Authorization: `Bearer ${acessToken}` } }
               )
                 .then((resp) => {
-                  console.log('====================================')
-                  console.log(resp.data.message[0])
-                  console.log('====================================')
                   setLoading(true)
                   setResponse(resp.data.message)
                   setList(resp.data.message)
@@ -69,9 +66,6 @@ const ModalSelectMaterial: React.FC<props> = ({ onChange, modalChange, setmateDe
                 { headers: { Authorization: `Bearer ${acessToken}` } }
               )
                 .then((resp) => {
-                  console.log('====================================')
-                  console.log(resp.data.message)
-                  console.log('====================================')
                   setLoading(true)
                   setResponse(resp.data.message)
                   setList(resp.data.message)

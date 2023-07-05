@@ -86,14 +86,9 @@ const CardPay: React.FC<props> = ({ datas }: props) => {
         valor: Number(datas.item.trpp_valprev)
       }])
     } else {
-      setArrayPagar([])
       setArrayPagar(
         arrayPagar.filter(
           (item) => {
-            console.log('====================================1')
-            console.log(item.trppCod + '', datas.item.trpp_cod + '')
-            console.log(item.trppCod + '' !== datas.item.trpp_cod + '')
-            console.log('====================================')
             if (item.trppCod !== datas.item.trpp_cod) {
               return false
             }
@@ -114,7 +109,7 @@ const CardPay: React.FC<props> = ({ datas }: props) => {
 
   const handleClick = () => {
     if (arrayPagar.length === 0) {
-      navigation.navigate('DetalhePagar', {
+      navigation.navigate('DetalhePay', {
         cere_nome: datas.item.cere_nome,
         cere_sigla: datas.item.cere_sigla,
         empr_nome: datas.item.empr_nome,
@@ -163,10 +158,6 @@ const CardPay: React.FC<props> = ({ datas }: props) => {
           arrayPagar.filter(
             (item) => {
               setBgColor('#FFFFFF')
-              console.log('====================================2')
-              console.log(item.trppCod + '', datas.item.trpp_cod + '')
-              console.log(item.trppCod + '' !== datas.item.trpp_cod + '')
-              console.log('====================================')
               if (item.trppCod !== datas.item.trpp_cod) {
                 return false
               }

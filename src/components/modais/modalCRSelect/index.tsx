@@ -43,14 +43,12 @@ const ModalSelectCrFilter: React.FC<props> = ({ onChange, modalChange, setCereDe
             )
               .then((resp) => {
                 setLoading(!loading)
-                console.log('====================================')
-                console.log(resp.data.message)
-                console.log('====================================')
                 setResponse(resp.data.message)
                 setList(resp.data.message)
               })
-              .catch((e) => {
-                console.log(e.response.data)
+              .catch(() => {
+                setLoading(!loading)
+                setModalAlert(!modalAlert)
               })
           })
           .catch(() => {

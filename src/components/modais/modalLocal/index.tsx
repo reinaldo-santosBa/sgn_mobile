@@ -46,8 +46,9 @@ const ModalSelectLocal: React.FC<props> = ({ onChange, modalChange, setLocal }) 
                 setResponse(resp.data)
                 setList(resp.data)
               })
-              .catch((e) => {
-                console.log(e.response.data)
+              .catch(() => {
+                setLoading(!loading)
+                setModalAlert(!modalAlert)
               })
           })
           .catch(() => {

@@ -44,9 +44,6 @@ const ModalPasswordPay: React.FC<props> = ({ func }) => {
           config
         ).then((json) => {
           // func()
-          console.log('====================================')
-          console.log(json.data)
-          console.log('====================================')
           setArrayPagar([])
           setAttResponse(!attResponse)
           setMessage(json.data)
@@ -57,7 +54,7 @@ const ModalPasswordPay: React.FC<props> = ({ func }) => {
             (error) => {
               if (error.response) {
                 setArrayPagar([])
-                setMessage(error.response.data.message)
+                setMessage(error.response.data)
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
@@ -136,7 +133,7 @@ const ModalPasswordPay: React.FC<props> = ({ func }) => {
               func()
             } else {
               func()
-              // navigation.navigate('AcceptPay')
+              navigation.navigate('AcceptPay')
             }
           }}
           error={err}

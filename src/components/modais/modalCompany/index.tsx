@@ -46,8 +46,9 @@ const ModalSelectCompany: React.FC<props> = ({ onChange, modalChange, setCompany
                 setResponse(resp.data)
                 setList(resp.data)
               })
-              .catch((e) => {
-                console.log(e.response.data)
+              .catch(() => {
+                setLoading(false)
+                setModalAlert(!modalAlert)
               })
           })
           .catch(() => {

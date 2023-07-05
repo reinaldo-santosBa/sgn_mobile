@@ -46,8 +46,9 @@ const ModalSelectEmployee: React.FC<props> = ({ onChange, modalChange, setEmploy
                 setResponse(resp.data.message)
                 setList(resp.data.message)
               })
-              .catch((e) => {
-                console.log(e.response.data)
+              .catch(() => {
+                setLoading(!loading)
+                setModalAlert(!modalAlert)
               })
           })
           .catch(() => {

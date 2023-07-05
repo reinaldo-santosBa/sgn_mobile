@@ -18,9 +18,6 @@ export const ItemUserAproval: React.FC<props> = ({ nome, onChange, modalChange, 
           onChange(cod)
           modalChange()
           setAproval(nome)
-          console.log('====================================')
-          console.log(1)
-          console.log('====================================')
         }
       }
     >

@@ -19,9 +19,6 @@ interface props{
 export const HeaderContractService : React.FC<props> = ({ datas }) => {
   const dates = new Date(datas.COCS_DT_INICIO)
   const dates2 = new Date(datas.COCS_DT_FIM)
-  console.log('data====================================')
-  console.log(datas)
-  console.log('====================================')
   let data:string | number
   let data2: string | number
   const valorTotal = datas.VALOR_TOTAL

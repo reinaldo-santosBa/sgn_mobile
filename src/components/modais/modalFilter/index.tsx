@@ -547,6 +547,106 @@ const ModalFilter: React.FC<Iprops> = ({
 
           </View>
     )
+  } else if (type === 'pagar') {
+    return (
+          <View style={styles.modalArea}>
+              <TouchableOpacity
+                  style={styles.icon}
+                  onPress={() => {
+                    func()
+                  }}
+              >
+                  <Icon
+                      name='close'
+                      size={40}
+                      color='#fff'
+                  />
+
+              </TouchableOpacity>
+
+              <View style={styles.modalAreaInterna}>
+
+                  <View>
+
+                      <TextInput
+
+                          onChangeText={setInputCod}
+
+                          value={inputCod}
+
+                          style={styles.textInput}
+
+                          placeholder='Digite o numero da transação'
+
+                          keyboardType={'numeric'}
+
+                      />
+
+                </View>
+
+                <View>
+
+                    <TextInput
+
+                        onChangeText={setInputNum}
+
+                        value={inputNum}
+
+                        style={styles.textInput}
+
+                        placeholder='Digite o número do documento'
+
+                        keyboardType={'numeric'}
+
+                    />
+
+                </View>
+
+                  <ButtonSelectFilter
+                      text={supplierDesc}
+                      handleClick={
+                          () => {
+                            setModalSupplier(!modalSupplier)
+                          }
+                      }
+                  />
+
+                  <TouchableOpacity style={styles.btnSearch}
+
+                      onPress={() => {
+                        funcSearch()
+                      }}
+
+                  >
+
+                      <Text
+
+                          style={styles.textSearch}
+
+                      >
+
+                          PESQUISAR
+
+                      </Text>
+
+                      <Icon
+
+                          style={styles.iconSearch}
+
+                          name='search'
+
+                          size={20}
+
+                          color='#fff'
+
+                      />
+
+                  </TouchableOpacity>
+
+              </View>
+
+          </View>
+    )
   }
 }
 

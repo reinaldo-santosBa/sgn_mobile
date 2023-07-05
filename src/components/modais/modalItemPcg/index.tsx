@@ -37,9 +37,6 @@ const ModalSelectItemPcg: React.FC<props> = ({ onChange, modalChange, plgcCod, t
   useEffect(() => {
     (
       async () => {
-        console.log('====================================')
-        console.log(`${plgcCod}/${ticrCod}/${cereCod}`)
-        console.log('====================================')
         setLoading(false)
         await axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
           .then((json) => {
@@ -50,15 +47,12 @@ const ModalSelectItemPcg: React.FC<props> = ({ onChange, modalChange, plgcCod, t
             )
               .then((resp) => {
                 setLoading(true)
-                console.log('====================================')
-                console.log(resp.data.message)
-                console.log('====================================')
                 setResponse(resp.data.message)
                 setList(resp.data.message)
               })
-              .catch((e) => {
-                setLoading(false)
-                console.log(e.response.data)
+              .catch(() => {
+                setLoading(!loading)
+                setModalAlert(!modalAlert)
               })
           })
           .catch(() => {

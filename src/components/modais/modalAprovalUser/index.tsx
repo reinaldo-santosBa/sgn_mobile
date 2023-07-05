@@ -54,8 +54,8 @@ const ModalSelectAproval: React.FC<props> = ({ onChange, modalChange, setAproval
                 setList(respAllFilter)
                 setResponse(respAllFilter)
               })
-              .catch((e) => {
-                console.log(e)
+              .catch(() => {
+                return 1
               })
           })
           .catch(() => {
