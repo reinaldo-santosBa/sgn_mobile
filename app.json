@@ -2,7 +2,7 @@
   "expo": {
     "name": "Sgn sistemas",
     "slug": "sgn_mobile",
-    "version": "15.0.0",
+    "version": "22.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/img/iconSgn1.png",
     "userInterfaceStyle": "light",
@@ -32,7 +32,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.inova_sgn.sgn_mobile",
-      "versionCode": 15
+      "versionCode": 22
     },
     "web": {
       "favicon": "./src/assets/img/logo.png"

@@ -140,7 +140,7 @@ export const AuthContextProvider : React.FC<IProvider> = ({ children }) => {
               url,
               setUrl,
               version: 'v1',
-              versionApp: '19',
+              versionApp: '22',
               linkSGN,
               setAtt,
               att,

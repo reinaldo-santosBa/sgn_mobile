@@ -8,13 +8,14 @@ import BtnEmMassa from '../../components/buttons/btnPedidoMassa'
 import BtnFilter from '../../components/buttons/btnFilter'
 import ModalAlert from '../../components/modais/modalAlert'
 import { CardServiceContractBulletin } from '../../components/cards/cardServiceContractBulletin'
-import MenuConainer from '../../components/menu/menuContainerCompras'
+import MenuContainer from '../../components/menu/menuContainerCompras'
 import TextWithoutData from '../../components/input/textWithoutData'
 import { FullNavigationProp } from '../comprasHome'
 import { useNavigation } from '@react-navigation/native'
 import ModalPasswordContratoServicoBulletin from '../../components/modais/modalPasswordContServBulletin'
 import ModalFilter from '../../components/modais/modalFilter'
 import ModalSelectSupplier from '../../components/modais/modalSupplier'
+import BtnAdd from '../../components/buttons/btnAdd'
 
 const ServiceContractBulletin: React.FC = () => {
   const [loading, setLoading] = useState(false)
@@ -213,7 +214,7 @@ const ServiceContractBulletin: React.FC = () => {
   }
 
   return (
-    <MenuConainer>
+    <MenuContainer>
       <Container>
 
         {loading === false ? <ActivityIndicator /> : ''}
@@ -226,6 +227,11 @@ const ServiceContractBulletin: React.FC = () => {
           />
           : ''
         }
+        {/* <BtnAdd
+          func={() => {
+            navigation.navigate('BulletinCreate')
+          }}
+        /> */}
         <BtnFilter
           func={() => {
             setModalFilter(!modalFilter)
@@ -350,7 +356,7 @@ const ServiceContractBulletin: React.FC = () => {
           setSupplier={setSupplierDesc}
         />
       </Modal>
-    </MenuConainer>
+    </MenuContainer>
   )
 }
 

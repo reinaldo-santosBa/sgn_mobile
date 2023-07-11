@@ -28,6 +28,7 @@ import PriceDetailsPurchaseWorksheet from '../pages/priceDetailsPurchaseWorkshee
 import PagarHome from '../pages/pagarHome'
 import AcceptPay from '../pages/acceptPay'
 import DetalhePay from '../pages/detalhePay'
+import BulletinCreate from '../pages/bulletinCreate'
 
 export type RootStackParamList = {
     SplashScreen: undefined;
@@ -159,6 +160,7 @@ export type RootStackParamList = {
         trpp_valjur: number;
         trpp_valprev: number;
     }
+    BulletinCreate: undefined;
 };
 
 const AuthStack = createNativeStackNavigator<RootStackParamList>()
@@ -417,6 +419,16 @@ const AuthRoutesSplash = () => {
               name="DetalhePay"
 
               component={DetalhePay}
+
+              options={{ headerShown: false }}
+
+          />
+
+          <AuthStack.Screen
+
+              name="BulletinCreate"
+
+              component={BulletinCreate}
 
               options={{ headerShown: false }}
 

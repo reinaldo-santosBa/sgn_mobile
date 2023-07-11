@@ -9,6 +9,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../routes/fullScreen.routes'
 import axios from 'axios'
 import ModalAlert from '../../components/modais/modalAlert'
+import InputSchedule from '../../components/input/textInputSchedule'
 
 const AgendaHome: React.FC = () => {
   type FullNavigationProp = NativeStackNavigationProp<
@@ -19,10 +20,11 @@ const AgendaHome: React.FC = () => {
   const navigation = useNavigation<FullNavigationProp>()
   const { refreshToken, url, version } = useContext(AuthContext)
   const [response, setResponse] = useState([])
+  const [list, setList] = useState([])
   const [loading, setLoading] = useState(false)
   const [att] = useState(true)
   const [modal, setModal] = useState(false)
-
+  const [textSearch,setTextSearch] = useState('')
   useEffect(() => {
     axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
       .then((json) => {
@@ -32,6 +34,7 @@ const AgendaHome: React.FC = () => {
         )
           .then((json) => {
             setResponse(json.data)
+            setList(json.data)
             setLoading(true)
           })
           .catch(
@@ -55,6 +58,22 @@ const AgendaHome: React.FC = () => {
       )
   }, [att])
 
+  useEffect(() => {
+    if (textSearch !== '') {
+      setList(
+        response.filter(item => {
+          const nome  = item.NOME.toLowerCase()
+          if (nome.indexOf(textSearch.toLowerCase()) > -1) {
+            return true
+          }
+          return false
+        })
+      )
+    } else {
+      setList(response)
+    }
+  }, [textSearch])
+
   const backAction = () => {
     navigation.navigate('Home')
     return true
@@ -70,7 +89,14 @@ const AgendaHome: React.FC = () => {
   return (
     <Container>
       {loading === false ? <ActivityIndicator/> : ''}
-
+      <InputSchedule
+        placeHolder={'Digite o nome'}
+        setInput={setTextSearch}
+        input={textSearch} 
+        placeHolderColor={'#e1e1e1'} 
+        name={'user'}
+        secureTextEntry={false}
+      />
       <FlatList
         style={{ width: '100%' }}
         renderItem={(item) => {
@@ -85,7 +111,7 @@ const AgendaHome: React.FC = () => {
             />
           )
         }}
-        data={response}
+        data={list}
       />
       <Modal
         animationType="slide"
