@@ -22,6 +22,9 @@ const BulletinCreate: React.FC = () => {
   const [itemPcgDesc, setItemPcgDesc] = useState('Escolha o item Pcg')
   const [modalItemPcg, setModalItemPcg] = useState(false)
   const [itemPcgCod, setItemPcgCod] = useState('')
+  const [textButtonProx, setTextButtonProx] = useState('Proximo')
+  const [bgPrevColor, setBgPrevColor] = useState('#CCCCCC')
+
   return (
     <MenuContainer>
       <Container>
@@ -105,7 +108,32 @@ const BulletinCreate: React.FC = () => {
               }
             />
           </S.AreaInput>
-
+          <S.AreaBtns>
+            <S.ButtonPrevProx
+              bg={bgPrevColor}
+              onPress={() => {
+                console.log('====================================')
+                console.log(1)
+                console.log('====================================')
+              }}
+            >
+              <S.TextIcon>
+                Voltar
+              </S.TextIcon>
+            </S.ButtonPrevProx>
+            <S.ButtonPrevProx
+              bg={'#1BAF64'}
+              onPress={() => {
+                console.log('====================================')
+                console.log(1)
+                console.log('====================================')
+              }}
+            >
+              <S.TextIcon>
+                {textButtonProx}
+              </S.TextIcon>
+            </S.ButtonPrevProx>
+          </S.AreaBtns>
         </S.AreaForm>
         <Modal
           animationType="slide"

@@ -24,7 +24,7 @@
     "ios": {
       "supportsTablet": false,
       "buildNumber": "1",
-      "bundleIdentifier": "Y"
+      "bundleIdentifier": "com.sgnsistemas.sgnMobile"
     },
     "android": {
       "adaptiveIcon": {

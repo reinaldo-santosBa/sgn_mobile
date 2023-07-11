@@ -227,11 +227,11 @@ const ServiceContractBulletin: React.FC = () => {
           />
           : ''
         }
-        {/* <BtnAdd
+        <BtnAdd
           func={() => {
             navigation.navigate('BulletinCreate')
           }}
-        /> */}
+        />
         <BtnFilter
           func={() => {
             setModalFilter(!modalFilter)

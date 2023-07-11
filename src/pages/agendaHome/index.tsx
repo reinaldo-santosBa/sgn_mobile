@@ -24,7 +24,7 @@ const AgendaHome: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [att] = useState(true)
   const [modal, setModal] = useState(false)
-  const [textSearch,setTextSearch] = useState('')
+  const [textSearch, setTextSearch] = useState('')
   useEffect(() => {
     axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
       .then((json) => {
@@ -62,7 +62,7 @@ const AgendaHome: React.FC = () => {
     if (textSearch !== '') {
       setList(
         response.filter(item => {
-          const nome  = item.NOME.toLowerCase()
+          const nome = item.NOME.toLowerCase()
           if (nome.indexOf(textSearch.toLowerCase()) > -1) {
             return true
           }
@@ -92,8 +92,8 @@ const AgendaHome: React.FC = () => {
       <InputSchedule
         placeHolder={'Digite o nome'}
         setInput={setTextSearch}
-        input={textSearch} 
-        placeHolderColor={'#e1e1e1'} 
+        input={textSearch}
+        placeHolderColor={'#e1e1e1'}
         name={'user'}
         secureTextEntry={false}
       />
