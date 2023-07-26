@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react'
 import * as C from './styles'
 import Input from '../../input/textInput'
-import { api } from '../../../services/axios'
 import { AuthContext } from '../../../contexts/contextApi'
 import { Modal } from 'react-native'
 import ModalAlert from '../modalAlert'
 import { FullNavigationProp } from '../../menu/menuContainerCompras'
 import { useNavigation } from '@react-navigation/native'
+import axios from 'axios'
 
 interface props {
   func: () => void,
@@ -15,7 +15,7 @@ interface props {
 }
 
 const ModalPasswordLargScale: React.FC<props> = ({ func, mudarCor, refresh }) => {
-  const { refreshToken, arrayPedido, setArrayPedido, att, setAtt } = useContext(AuthContext)
+  const { refreshToken, arrayPedido, setArrayPedido, att, setAtt, url, version } = useContext(AuthContext)
   const [err, setErr] = useState(false)
   const [message, setMessage] = useState([])
   const [modal, setModal] = useState(false)
@@ -30,7 +30,7 @@ const ModalPasswordLargScale: React.FC<props> = ({ func, mudarCor, refresh }) =>
       setModal(!modal)
       return
     }
-    api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+    axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
       .then((json) => {
         const acessToken = json.data.acessToken
         const config = {
@@ -43,8 +43,8 @@ const ModalPasswordLargScale: React.FC<props> = ({ func, mudarCor, refresh }) =>
         }
         console.log(bodyParameters)
 
-        api.patch(
-          'pedido/largeScale',
+        axios.patch(
+          `${url}${version}/pedido/largeScale`,
           bodyParameters,
           config
         ).then((json) => {

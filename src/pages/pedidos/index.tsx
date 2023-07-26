@@ -70,6 +70,9 @@ const Pedidos: React.FC<FullNavigationProp> = () => {
           axios.get(`${url}${version}/pedido/forn/${supplierDesc}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
+              console.log('====================================')
+              console.log(json.data)
+              console.log('====================================')
             })
             .catch((error) => {
               setLoading(false)
@@ -214,9 +217,6 @@ const Pedidos: React.FC<FullNavigationProp> = () => {
                 return (
                   <CardPedido
                     datas={item}
-                    responseFunc={() => {
-                      setResponse([])
-                    }}
                   />
                 )
               }}

@@ -1,18 +1,18 @@
 import React, { useState, useContext } from 'react'
 import * as C from './styles'
 import Input from '../../input/textInput'
-import { api } from '../../../services/axios'
 import { AuthContext } from '../../../contexts/contextApi'
 import { Modal } from 'react-native'
 import ModalAlert from '../modalAlert'
 import { FullNavigationProp } from '../../menu/menuContainerCompras'
 import { useNavigation } from '@react-navigation/native'
+import axios from 'axios'
 
 interface props {
   func: () => void;
 }
 const ModalPasswordContratoServico: React.FC<props> = ({ func }) => {
-  const { refreshToken, arrayContratoServico, setArrayContratoServico, setAttResponse, attResponse } = useContext(AuthContext)
+  const { url, version, refreshToken, arrayContratoServico, setArrayContratoServico, setAttResponse, attResponse } = useContext(AuthContext)
   const [password, setPassword] = useState('')
   const [err, setErr] = useState(false)
   const [message, setMessage] = useState([])
@@ -26,7 +26,7 @@ const ModalPasswordContratoServico: React.FC<props> = ({ func }) => {
       setModal(!modal)
       return
     }
-    api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+    axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
       .then((json) => {
         const acessToken = json.data.acessToken
         const config = {
@@ -37,34 +37,39 @@ const ModalPasswordContratoServico: React.FC<props> = ({ func }) => {
           password,
           arrayCocs: arrayContratoServico
         }
-
-        api.patch(
-          'contratoServico',
+        console.log('====================================')
+        console.log(`${url}${version}`)
+        console.log('====================================')
+        axios.patch(
+          `${url}${version}/contratoServico`,
           bodyParameters,
           config
         ).then((json) => {
           // func()
           setArrayContratoServico([])
           setAttResponse(!attResponse)
-          setMessage(json.data.message)
+          setMessage(json.data)
           setErr(false)
           setModal(!modal)
         })
           .catch(
             (error) => {
+              console.log('====================================')
+              console.log(error.response)
+              console.log('====================================')
               if (error.response) {
                 setArrayContratoServico([])
-                setMessage(error.response.data.message)
+                setMessage(error.response.data)
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayContratoServico([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
                 setArrayContratoServico([])
-                setMessage(error.data.message)
+                setMessage(error.data)
                 setErr(true)
                 setModal(!modal)
               }
@@ -74,6 +79,9 @@ const ModalPasswordContratoServico: React.FC<props> = ({ func }) => {
           )
       })
       .catch(() => {
+        console.log('====================================')
+        console.log(1)
+        console.log('====================================')
         setModalAlert(!modalAlert)
       })
   }

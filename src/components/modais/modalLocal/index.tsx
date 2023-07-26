@@ -63,7 +63,8 @@ const ModalSelectLocal: React.FC<props> = ({ onChange, modalChange, setLocal }) 
     if (textSearch !== '') {
       setList(
         response.filter(item => {
-          if (item.LOCA_DESC.indexOf(textSearch) > -1) {
+          const desc = item.LOCA_DESC.toLowerCase()
+          if (desc.indexOf(textSearch.toLowerCase()) > -1) {
             return true
           }
           return false

@@ -47,8 +47,8 @@ const ModalSelectItemPcg: React.FC<props> = ({ onChange, modalChange, plgcCod, t
             )
               .then((resp) => {
                 setLoading(true)
-                setResponse(resp.data.message)
-                setList(resp.data.message)
+                setResponse(resp.data)
+                setList(resp.data)
               })
               .catch(() => {
                 setLoading(!loading)
@@ -92,7 +92,7 @@ const ModalSelectItemPcg: React.FC<props> = ({ onChange, modalChange, plgcCod, t
             : ''
         }
         <InputModal
-          placeholder={'Digite o nome do almoxarifado'}
+          placeholder={'Digite o item pcg'}
           onChange={setTextSearch}
           value={textSearch}
         />

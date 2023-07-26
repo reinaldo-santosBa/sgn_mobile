@@ -1,7 +1,7 @@
 import React, { SetStateAction, createContext, useState } from 'react'
 interface IarraySoco {
   valorTotal: string,
-  posAss: string,
+  pos: string,
   socoCod: string,
 }
 
@@ -104,7 +104,8 @@ export const AuthContextProvider : React.FC<IProvider> = ({ children }) => {
   const [arrayPurchaseWorksheet, setArrayPurchaseWorksheet] = useState([])
   const [arrayPagar, setArrayPagar] = useState([])
 
-  const linkSGN = 'http://129.148.50.73:9005'
+  // const linkSGN = 'http://129.148.50.73:9005'
+  const linkSGN = 'http://192.168.101.18:9005'
   return (
 
     <AuthContext.Provider

@@ -13,6 +13,8 @@ interface props{
     FILI_NOME_FANTASIA: string;
     EMPR_NOME: string;
     LOCA_DESC: string;
+    CERE_NOME: string;
+    CERE_SIGLA: string
   };
 }
 
@@ -53,8 +55,10 @@ export const HeaderContractService : React.FC<props> = ({ datas }) => {
         <Text style={styles.text}><Text style={styles.title}>Empresa: </Text>{datas.EMPR_NOME}</Text>
         <Text style={styles.text}><Text style={styles.title}>Filial: </Text>{datas.FILI_NOME_FANTASIA}</Text>
         <Text style={styles.text}><Text style={styles.title}>Local: </Text>{datas.LOCA_DESC}</Text>
-        <Text style={styles.text}><Text style={styles.title}>Valor total: </Text>{changeReal(valorTotal)}</Text>
+        <Text style={styles.text}><Text style={styles.title}>Valor total: </Text>{changeReal(Number(valorTotal))}</Text>
         <Text style={styles.text}><Text style={styles.title}>Forma de pagamento: </Text>{formaPagamento.length > 100 ? formaPagamento.slice(0, 100) + '...' : formaPagamento}</Text>
+        <Text style={styles.text}><Text style={styles.title}>Cr: </Text>{datas.CERE_SIGLA} - {datas.CERE_NOME}</Text>
+
       </View>
     </View>
   )

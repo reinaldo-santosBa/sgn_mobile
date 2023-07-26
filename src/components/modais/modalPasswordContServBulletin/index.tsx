@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react'
 import * as C from './styles'
 import Input from '../../input/textInput'
-import { api } from '../../../services/axios'
 import { AuthContext } from '../../../contexts/contextApi'
 import { Modal } from 'react-native'
 import ModalAlert from '../modalAlert'
 import { FullNavigationProp } from '../../menu/menuContainerCompras'
 import { useNavigation } from '@react-navigation/native'
+import axios from 'axios'
 
 interface props {
   func: () => void;
@@ -17,7 +17,9 @@ const ModalPasswordContratoServicoBulletin: React.FC<props> = ({ func }) => {
     setAttResponse,
     attResponse,
     setArrayContratoServicoBulletin,
-    arrayContratoServicoBulletin
+    arrayContratoServicoBulletin,
+    version,
+    url
   } = useContext(AuthContext)
   const [password, setPassword] = useState('')
   const [err, setErr] = useState(false)
@@ -32,7 +34,7 @@ const ModalPasswordContratoServicoBulletin: React.FC<props> = ({ func }) => {
       setModal(!modal)
       return
     }
-    api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+    axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
       .then((json) => {
         const acessToken = json.data.acessToken
         const config = {
@@ -44,8 +46,8 @@ const ModalPasswordContratoServicoBulletin: React.FC<props> = ({ func }) => {
           arrayBoletimC: arrayContratoServicoBulletin
         }
 
-        api.patch(
-          'boletimServico',
+        axios.patch(
+          `${url}${version}/boletimServico`,
           bodyParameters,
           config
         ).then((json) => {

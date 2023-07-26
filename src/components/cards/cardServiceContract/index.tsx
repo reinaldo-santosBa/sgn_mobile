@@ -22,6 +22,8 @@ interface props {
       COCS_FORMA_PAGAMENTO: string;
       SERV_DESC: string;
       LOCA_DESC: string;
+      CERE_SIGLA: string;
+      CERE_NOME: string;
     }
   },
   loadingFunc: () => void
@@ -135,7 +137,9 @@ const CardServiceContract: React.FC<props> = ({ datas }: props) => {
           FORN_NOME: datas.item.FORN_NOME,
           EMPR_NOME: datas.item.EMPR_NOME,
           FILI_NOME_FANTASIA: datas.item.FILI_NOME_FANTASIA,
-          LOCA_DESC: datas.item.LOCA_DESC
+          LOCA_DESC: datas.item.LOCA_DESC,
+          CERE_SIGLA: datas.item.CERE_SIGLA,
+          CERE_NOME: datas.item.CERE_NOME
         }
       })
     } else {
@@ -223,7 +227,7 @@ const CardServiceContract: React.FC<props> = ({ datas }: props) => {
 
         <View style={styles.cardTextArea}>
           <Text style={styles.cardTextTitle}>Valor : </Text>
-          <Text style={styles.cardTextBody}>{changeReal(valorTotal)}</Text>
+          <Text style={styles.cardTextBody}>{changeReal(Number(valorTotal))}</Text>
         </View>
 
         <View style={styles.cardTextArea}>
@@ -237,6 +241,10 @@ const CardServiceContract: React.FC<props> = ({ datas }: props) => {
         <View style={styles.cardTextArea}>
           <Text style={styles.cardTextTitle}>Empresa : </Text>
           <Text style={styles.cardTextBody}>{empresaFormated}</Text>
+        </View>
+        <View style={styles.cardTextArea}>
+          <Text style={styles.cardTextTitle}>Cr : </Text>
+          <Text style={styles.cardTextBody}>{datas.item.CERE_SIGLA} - {datas.item.CERE_NOME}</Text>
         </View>
       </TouchableOpacity>
       <Modal

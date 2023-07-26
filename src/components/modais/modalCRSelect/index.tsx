@@ -43,8 +43,8 @@ const ModalSelectCrFilter: React.FC<props> = ({ onChange, modalChange, setCereDe
             )
               .then((resp) => {
                 setLoading(!loading)
-                setResponse(resp.data.message)
-                setList(resp.data.message)
+                setResponse(resp.data)
+                setList(resp.data)
               })
               .catch(() => {
                 setLoading(!loading)
@@ -63,7 +63,8 @@ const ModalSelectCrFilter: React.FC<props> = ({ onChange, modalChange, setCereDe
     if (textSearch !== '') {
       setList(
         response.filter(item => {
-          if (item.CERE_NOME.indexOf(textSearch) > -1) {
+          const name = item.CERE_NOME.toLowerCase()
+          if (name.indexOf(textSearch.toLowerCase()) > -1) {
             return true
           }
           return false
@@ -88,7 +89,7 @@ const ModalSelectCrFilter: React.FC<props> = ({ onChange, modalChange, setCereDe
             : ''
         }
         <InputModal
-          placeholder={'Digite o nome do almoxarifado'}
+          placeholder={'Digite o CR'}
           onChange={setTextSearch}
           value={textSearch}
         />

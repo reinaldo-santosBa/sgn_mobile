@@ -67,8 +67,8 @@ const ModalSelectMaterial: React.FC<props> = ({ onChange, modalChange, setmateDe
               )
                 .then((resp) => {
                   setLoading(true)
-                  setResponse(resp.data.message)
-                  setList(resp.data.message)
+                  setResponse(resp.data)
+                  setList(resp.data)
                 })
                 .catch((e) => {
                   console.log(e.response.data)

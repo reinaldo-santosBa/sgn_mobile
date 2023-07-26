@@ -62,7 +62,8 @@ const ModalSelectSupplier: React.FC<props> = ({ onChange, modalChange, setSuppli
     if (textSearch !== '') {
       setList(
         response.filter(item => {
-          if (item.FORN_NOME.indexOf(textSearch) > -1) {
+          const name = item.FORN_NOME.toLowerCase()
+          if (name.indexOf(textSearch.toLowerCase()) > -1) {
             return true
           }
           return false

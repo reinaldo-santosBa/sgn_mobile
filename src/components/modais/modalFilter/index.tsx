@@ -33,6 +33,12 @@ interface Iprops {
     dtFormatada?: string;
     setDtFormatada?: React.Dispatch<SetStateAction<string>>;
     setDtFormatadaRequest?: React.Dispatch<SetStateAction<string>>;
+    dtFormatadaIni?: string;
+    setDtFormatadaIni?: React.Dispatch<SetStateAction<string>>;
+    setDtFormatadaRequestIni?: React.Dispatch<SetStateAction<string>>;
+    dtFormatadaEnd?: string;
+    setDtFormatadaEnd?: React.Dispatch<SetStateAction<string>>;
+    setDtFormatadaRequestEnd?: React.Dispatch<SetStateAction<string>>;
     crDesc?: string;
     setModalCr?: React.Dispatch<SetStateAction<boolean>>;
     modalCr?: boolean;
@@ -48,7 +54,7 @@ interface Iprops {
 }
 
 const ModalFilter: React.FC<Iprops> = ({
-  inputNum, setInputNum, func, funcSearch, type, number, setNumber, purshingSector, setModalPurshingSector, modalPurshingSector, inputCod, setInputCod, employeeDesc, setModalEmployee, modalEmployee, supplierDesc, setModalSupplier, modalSupplier, setModalWereHouse, modalWereHouse, werehouseDesc, dtFormatada, setDtFormatada, setDtFormatadaRequest, setModalCr, modalCr, crDesc, subsidiaryDesc, setModalSubsidiary, modalSubsidiary, companyDesc, setModalCompany, modalCompany, setModalLocal, localDesc, modalLocal
+  inputNum, setInputNum, func, funcSearch, type, number, setNumber, purshingSector, setModalPurshingSector, modalPurshingSector, inputCod, setInputCod, employeeDesc, setModalEmployee, modalEmployee, supplierDesc, setModalSupplier, modalSupplier, setModalWereHouse, modalWereHouse, werehouseDesc, dtFormatadaIni, setDtFormatadaIni, setDtFormatadaRequestIni, dtFormatada, setDtFormatada, setDtFormatadaRequestEnd, dtFormatadaEnd, setDtFormatadaEnd, setDtFormatadaRequest, setModalCr, modalCr, crDesc, subsidiaryDesc, setModalSubsidiary, modalSubsidiary, companyDesc, setModalCompany, modalCompany, setModalLocal, localDesc, modalLocal
 }: Iprops) => {
   if (type === 'pedido') {
     return (
@@ -319,7 +325,14 @@ const ModalFilter: React.FC<Iprops> = ({
                             }
                         }
                     />
-
+                    <ButtonSelectFilter
+                        text={crDesc}
+                        handleClick={
+                            () => {
+                              setModalCr(!modalCr)
+                            }
+                        }
+                    />
                     <TouchableOpacity style={styles.btnSearch}
 
                         onPress={() => {
@@ -420,6 +433,15 @@ const ModalFilter: React.FC<Iprops> = ({
                         }
                     />
 
+                    <ButtonSelectFilter
+                        text={crDesc}
+                        handleClick={
+                            () => {
+                              setModalCr(!modalCr)
+                            }
+                        }
+                    />
+
                     <TouchableOpacity style={styles.btnSearch}
 
                         onPress={() => {
@@ -458,40 +480,40 @@ const ModalFilter: React.FC<Iprops> = ({
     )
   } else if (type === 'planilha') {
     return (
-          <View style={styles.modalArea}>
-              <TouchableOpacity
-                  style={styles.icon}
-                  onPress={() => {
-                    func()
-                  }}
-              >
-                  <Icon
-                      name='close'
-                      size={40}
-                      color='#fff'
-                  />
+            <View style={styles.modalArea}>
+                <TouchableOpacity
+                    style={styles.icon}
+                    onPress={() => {
+                      func()
+                    }}
+                >
+                    <Icon
+                        name='close'
+                        size={40}
+                        color='#fff'
+                    />
 
-              </TouchableOpacity>
+                </TouchableOpacity>
 
-              <View style={styles.modalAreaInterna}>
+                <View style={styles.modalAreaInterna}>
 
-                  <View>
+                    <View>
 
-                      <TextInput
+                        <TextInput
 
-                          onChangeText={setInputCod}
+                            onChangeText={setInputCod}
 
-                          value={inputCod}
+                            value={inputCod}
 
-                          style={styles.textInput}
+                            style={styles.textInput}
 
-                          placeholder='Digite o codigo da planilha'
+                            placeholder='Digite o codigo da planilha'
 
-                          keyboardType={'numeric'}
+                            keyboardType={'numeric'}
 
-                      />
+                        />
 
-                  </View>
+                    </View>
 
                     <ButtonSelectFilter
                         text={purshingSector}
@@ -502,150 +524,169 @@ const ModalFilter: React.FC<Iprops> = ({
                         }
                     />
 
-                  <ButtonSelectFilter
-                      text={employeeDesc}
-                      handleClick={
-                          () => {
-                            setModalEmployee(!modalEmployee)
-                          }
-                      }
-                  />
+                    <ButtonSelectFilter
+                        text={employeeDesc}
+                        handleClick={
+                            () => {
+                              setModalEmployee(!modalEmployee)
+                            }
+                        }
+                    />
 
-                  <TouchableOpacity style={styles.btnSearch}
+                    <TouchableOpacity style={styles.btnSearch}
 
-                      onPress={() => {
-                        funcSearch()
-                      }}
+                        onPress={() => {
+                          funcSearch()
+                        }}
 
-                  >
+                    >
 
-                      <Text
+                        <Text
 
-                          style={styles.textSearch}
+                            style={styles.textSearch}
 
-                      >
+                        >
 
-                          PESQUISAR
+                            PESQUISAR
 
-                      </Text>
+                        </Text>
 
-                      <Icon
+                        <Icon
 
-                          style={styles.iconSearch}
+                            style={styles.iconSearch}
 
-                          name='search'
+                            name='search'
 
-                          size={20}
+                            size={20}
 
-                          color='#fff'
+                            color='#fff'
 
-                      />
+                        />
 
-                  </TouchableOpacity>
+                    </TouchableOpacity>
 
-              </View>
+                </View>
 
-          </View>
+            </View>
     )
   } else if (type === 'pagar') {
     return (
-          <View style={styles.modalArea}>
-              <TouchableOpacity
-                  style={styles.icon}
-                  onPress={() => {
-                    func()
-                  }}
-              >
-                  <Icon
-                      name='close'
-                      size={40}
-                      color='#fff'
-                  />
-
-              </TouchableOpacity>
-
-              <View style={styles.modalAreaInterna}>
-
-                  <View>
-
-                      <TextInput
-
-                          onChangeText={setInputCod}
-
-                          value={inputCod}
-
-                          style={styles.textInput}
-
-                          placeholder='Digite o numero da transação'
-
-                          keyboardType={'numeric'}
-
-                      />
-
-                </View>
-
-                <View>
-
-                    <TextInput
-
-                        onChangeText={setInputNum}
-
-                        value={inputNum}
-
-                        style={styles.textInput}
-
-                        placeholder='Digite o número do documento'
-
-                        keyboardType={'numeric'}
-
+            <View style={styles.modalArea}>
+                <TouchableOpacity
+                    style={styles.icon}
+                    onPress={() => {
+                      func()
+                    }}
+                >
+                    <Icon
+                        name='close'
+                        size={40}
+                        color='#fff'
                     />
 
+                </TouchableOpacity>
+
+                <View style={styles.modalAreaInterna}>
+
+                    <View>
+
+                        <TextInput
+
+                            onChangeText={setInputCod}
+
+                            value={inputCod}
+
+                            style={styles.textInput}
+
+                            placeholder='Digite o numero da transação'
+
+                            keyboardType={'numeric'}
+
+                        />
+
+                    </View>
+
+                    <View>
+
+                        <TextInput
+
+                            onChangeText={setInputNum}
+
+                            value={inputNum}
+
+                            style={styles.textInput}
+
+                            placeholder='Digite o número do documento'
+
+                            keyboardType={'numeric'}
+
+                        />
+
+                    </View>
+
+                    <ButtonSelectFilter
+                        text={supplierDesc}
+                        handleClick={
+                            () => {
+                              setModalSupplier(!modalSupplier)
+                            }
+                        }
+                    />
+
+                    <ButtonSelectFilter
+                        text={crDesc}
+                        handleClick={
+                            () => {
+                              setModalCr(!modalCr)
+                            }
+                        }
+                    />
+                    <InputDatePickerSelect
+                        dtFormatada={dtFormatadaIni}
+                        setDtFormatada={setDtFormatadaIni}
+                        setDtFormatadaRequest={setDtFormatadaRequestIni}
+                    />
+                    <InputDatePickerSelect
+                        dtFormatada={dtFormatadaEnd}
+                        setDtFormatada={setDtFormatadaEnd}
+                        setDtFormatadaRequest={setDtFormatadaRequestEnd}
+                    />
+
+                    <TouchableOpacity style={styles.btnSearch}
+
+                        onPress={() => {
+                          funcSearch()
+                        }}
+
+                    >
+
+                        <Text
+
+                            style={styles.textSearch}
+
+                        >
+
+                            PESQUISAR
+
+                        </Text>
+
+                        <Icon
+
+                            style={styles.iconSearch}
+
+                            name='search'
+
+                            size={20}
+
+                            color='#fff'
+
+                        />
+
+                    </TouchableOpacity>
+
                 </View>
 
-                  <ButtonSelectFilter
-                      text={supplierDesc}
-                      handleClick={
-                          () => {
-                            setModalSupplier(!modalSupplier)
-                          }
-                      }
-                  />
-
-                  <TouchableOpacity style={styles.btnSearch}
-
-                      onPress={() => {
-                        funcSearch()
-                      }}
-
-                  >
-
-                      <Text
-
-                          style={styles.textSearch}
-
-                      >
-
-                          PESQUISAR
-
-                      </Text>
-
-                      <Icon
-
-                          style={styles.iconSearch}
-
-                          name='search'
-
-                          size={20}
-
-                          color='#fff'
-
-                      />
-
-                  </TouchableOpacity>
-
-              </View>
-
-          </View>
+            </View>
     )
   }
 }

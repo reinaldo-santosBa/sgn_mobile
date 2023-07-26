@@ -6,6 +6,7 @@ import { RootStackParamList } from '../../routes/fullScreen.routes'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import * as S from './styles'
 import { VictoryAxis, VictoryBar, VictoryChart, VictoryTheme } from 'victory-native'
+import changeReal from '../../utils/chanceReal'
 
 interface propsRoute {
   route: {
@@ -106,15 +107,15 @@ const DetalheCrDados: React.FC = ({ route }: propsRoute) => {
           </S.TextTittleCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Aberto: </S.TextTittleContentCard>
-            {abertoDespesa}
+            {changeReal(abertoDespesa)}
           </S.TextContentCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Baixado: </S.TextTittleContentCard>
-            {baixadoDespesa}
+            {changeReal(baixadoDespesa)}
           </S.TextContentCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Total: </S.TextTittleContentCard>
-            {totalDespesa}
+            {changeReal(totalDespesa)}
           </S.TextContentCard>
           <VictoryChart
             theme={VictoryTheme.material}
@@ -131,15 +132,15 @@ const DetalheCrDados: React.FC = ({ route }: propsRoute) => {
           </S.TextTittleCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Aberto: </S.TextTittleContentCard>
-            {abertoReceita}
+            {changeReal(abertoReceita)}
           </S.TextContentCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Baixado: </S.TextTittleContentCard>
-            {baixadoReceita}
+            {changeReal(baixadoReceita)}
           </S.TextContentCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Total: </S.TextTittleContentCard>
-            {totalReceita}
+            {changeReal(totalReceita)}
           </S.TextContentCard>
           <VictoryChart
             theme={VictoryTheme.material}
@@ -156,15 +157,15 @@ const DetalheCrDados: React.FC = ({ route }: propsRoute) => {
           </S.TextTittleCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Aberto: </S.TextTittleContentCard>
-            {aberto}
+            {changeReal(aberto)}
           </S.TextContentCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Baixado: </S.TextTittleContentCard>
-            {baixado}
+            {changeReal(baixado)}
           </S.TextContentCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Total: </S.TextTittleContentCard>
-            {total}
+            {changeReal(total)}
           </S.TextContentCard>
           <VictoryChart
             theme={VictoryTheme.material}

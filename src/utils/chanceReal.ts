@@ -1,14 +1,6 @@
-const changeReal = (value : string) => {
-  let valueFormated
-  if (value === '' || value === null || value === undefined) {
-    valueFormated = 'R$ 0,00'
-  } else {
-    const valueRounded = parseFloat(value)
-    const valueInt = valueRounded.toFixed(2)
-    valueFormated = 'R$' + valueInt.replace('.', ',')
-  }
-
-  return valueFormated
+export default function changeReal (value: number) {
+  return new Intl.NumberFormat('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(value)
 }
-
-export default changeReal

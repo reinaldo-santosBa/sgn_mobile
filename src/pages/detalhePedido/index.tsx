@@ -43,7 +43,7 @@ interface propsRoute {
 }
 
 const DetalhePedido: React.FC = ({ route }: propsRoute) => {
-  const { refreshToken, url, version } = useContext(AuthContext)
+  const { refreshToken, url, version, att, setAtt } = useContext(AuthContext)
   const [modalPassword, setModalPassword] = useState(false)
   const {
     FORN_NOME,
@@ -54,7 +54,6 @@ const DetalhePedido: React.FC = ({ route }: propsRoute) => {
     VALOR_TOTAL_ITEM,
     PEDI_FORN_COD,
     PEDI_NUMERO,
-    responseFunc,
     PEDI_OBS,
     EMPR_NOME,
     PEDI_DESCONTO,
@@ -94,7 +93,6 @@ const DetalhePedido: React.FC = ({ route }: propsRoute) => {
           axios.get(`${url}${version}/pedido/detalhe/${pediCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((response) => {
               setData(response.data)
-
               setLoading(true)
             })
             .catch((error) => {
@@ -134,16 +132,16 @@ const DetalhePedido: React.FC = ({ route }: propsRoute) => {
       <HeaderPedido
         FORN_NOME={FORN_NOME}
         PEDI_DATA={PEDI_DATA}
-        VALOR_TOTAL_SERVICO={VALOR_TOTAL_SERVICO}
-        VALOR_TOTAL_ITEM={VALOR_TOTAL_ITEM}
+        VALOR_TOTAL_SERVICO={!VALOR_TOTAL_SERVICO ? '0' : VALOR_TOTAL_SERVICO}
+        VALOR_TOTAL_ITEM={!VALOR_TOTAL_ITEM ? '0' : VALOR_TOTAL_ITEM}
         PEDI_FORN_COD={PEDI_FORN_COD}
         PEDI_NUMERO={PEDI_NUMERO}
         PEDI_OBS={PEDI_OBS}
         EMPR_NOME={EMPR_NOME}
-        PEDI_DESCONTO={PEDI_DESCONTO}
-        PEDI_FRETE={PEDI_FRETE}
-        PEDI_TOTAL_MERC={PEDI_TOTAL_MERC}
-        PEDI_VALOR_APROVADO={PEDI_VALOR_APROVADO}
+        PEDI_DESCONTO={!PEDI_DESCONTO ? '0' : PEDI_DESCONTO}
+        PEDI_FRETE={!PEDI_FRETE ? '0' : PEDI_FRETE}
+        PEDI_TOTAL_MERC={!PEDI_TOTAL_MERC ? '0' : PEDI_TOTAL_MERC}
+        PEDI_VALOR_APROVADO={!PEDI_VALOR_APROVADO ? '0' : PEDI_VALOR_APROVADO}
       />
       <FlatList
         style={{ width: '100%', flex: 1 }}
@@ -170,7 +168,7 @@ const DetalhePedido: React.FC = ({ route }: propsRoute) => {
           cod={pediCod}
 
           responseFunc={() => {
-            responseFunc([])
+            setAtt(!att)
           }}
           fornCod={fornCod}
           valTotal={valorTotal}

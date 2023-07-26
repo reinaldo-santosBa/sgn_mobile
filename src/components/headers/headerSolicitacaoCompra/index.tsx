@@ -49,8 +49,8 @@ const HeaderPurchaseOrder : React.FC<props> = ({ datas }) => {
         <Text style={styles.text}><Text style={styles.title}>Número da solicitação: </Text>{datas.SOCO_NUMERO}</Text>
         <Text style={styles.text}><Text style={styles.title}>Unidade: </Text>{datas.UNMA_SIGLA} - {datas.UNMA_DESC}</Text>
         <Text style={styles.text}><Text style={styles.title}>Quantidade: </Text>{datas.SOCO_QTD_NECE}</Text>
-        <Text style={styles.text}><Text style={styles.title}>Custo médio: </Text>{changeReal(datas.ESTO_CUSTO_MEDIO)}</Text>
-        <Text style={styles.text}><Text style={styles.title}>Valor total: </Text>{changeReal(datas.valor_total)}</Text>
+        <Text style={styles.text}><Text style={styles.title}>Custo médio: </Text>{changeReal(Number(datas.ESTO_CUSTO_MEDIO))}</Text>
+        <Text style={styles.text}><Text style={styles.title}>Valor total: </Text>{changeReal(Number(datas.valor_total))}</Text>
         <Text style={styles.text}><Text style={styles.title}>Setor de compras: </Text>{datas.SECO_DESC}</Text>
         {
           datas.SERV_DESC === null

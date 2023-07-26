@@ -43,8 +43,8 @@ const ModalSelectEmployee: React.FC<props> = ({ onChange, modalChange, setEmploy
             )
               .then((resp) => {
                 setLoading(true)
-                setResponse(resp.data.message)
-                setList(resp.data.message)
+                setResponse(resp.data)
+                setList(resp.data)
               })
               .catch(() => {
                 setLoading(!loading)
@@ -63,7 +63,8 @@ const ModalSelectEmployee: React.FC<props> = ({ onChange, modalChange, setEmploy
     if (textSearch !== '') {
       setList(
         response.filter(item => {
-          if (item.PESS_NOME.indexOf(textSearch) > -1) {
+          const name = item.PESS_NOME.toLowerCase()
+          if (name.indexOf(textSearch.toLowerCase()) > -1) {
             return true
           }
           return false

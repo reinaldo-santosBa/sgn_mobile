@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import Container from '../../components/container'
 import { FlatList } from 'react-native-gesture-handler'
 import CardServiceContract from '../../components/cards/cardServiceContract'
-import { api } from '../../services/axios'
 import { AuthContext } from '../../contexts/contextApi'
 import { ActivityIndicator, Modal } from 'react-native'
 import ModalPasswordContratoServico from '../../components/modais/modalPasswordContServ'
@@ -16,6 +15,8 @@ import ModalSelectSupplier from '../../components/modais/modalSupplier'
 import ModalSelectSubsidiary from '../../components/modais/modalSubsidiary'
 import ModalSelectCompany from '../../components/modais/modalCompany'
 import ModalSelectLocal from '../../components/modais/modalLocal'
+import axios from 'axios'
+import ModalSelectCrFilter from '../../components/modais/modalCRSelect'
 
 const ServiceContract: React.FC = () => {
   const [loading, setLoading] = useState(false)
@@ -26,12 +27,18 @@ const ServiceContract: React.FC = () => {
     bgState,
     setBgState,
     arrayContratoServico,
-    setArrayContratoServico
+    setArrayContratoServico,
+    url,
+    version
   } = useContext(AuthContext)
   const [modalPassword, setModalPassword] = useState(false)
+
   const [modal, setModal] = useState(false)
+
   const [modalAlert, setModalAlert] = useState(false)
+
   const [inputCod, setInputCod] = useState('')
+
   const [err, setErr] = useState(false)
   const [message, setMessage] = useState([])
 
@@ -51,12 +58,16 @@ const ServiceContract: React.FC = () => {
   const [modalLocal, setModalLocal] = useState(false)
   const [localCod, setLocalCod] = useState('')
 
+  const [crDesc, setCrDesc] = useState('Escolha um Cr')
+  const [modalCr, setModalCr] = useState(false)
+  const [crCod, setCrCod] = useState('')
+
   useEffect(() => {
     setLoading(false)
-    api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+    axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
       .then((json) => {
         const acessToken = json.data.acessToken
-        api.get('contratoServico', { headers: { Authorization: `Bearer ${acessToken}` } })
+        axios.get(`${url}${version}/contratoServico`, { headers: { Authorization: `Bearer ${acessToken}` } })
           .then((json) => {
             setResponse(json.data)
             setLoading(true)
@@ -64,17 +75,17 @@ const ServiceContract: React.FC = () => {
           .catch((error) => {
             if (error.response) {
               setArrayContratoServico([])
-              setMessage(error.response.data.message)
+              setMessage(error.response.data)
               setErr(true)
               setModal(!modal)
             } else if (error.request) {
               setArrayContratoServico([])
-              setMessage(error.request.data.message)
+              setMessage(error.request.data)
               setErr(true)
               setModal(!modal)
             } else {
               setArrayContratoServico([])
-              setMessage(error.data.message)
+              setMessage(error.data)
               setErr(true)
               setModal(!modal)
             }
@@ -89,10 +100,10 @@ const ServiceContract: React.FC = () => {
   const search = () => {
     if (inputCod !== '') {
       setLoading(false)
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`contratoServico/cod/${inputCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/contratoServico/cod/${inputCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
               setLoading(true)
@@ -100,17 +111,17 @@ const ServiceContract: React.FC = () => {
             .catch((error) => {
               if (error.response) {
                 setArrayContratoServico([])
-                setMessage(error.response.data.message)
+                setMessage(error.response.data)
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayContratoServico([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
                 setArrayContratoServico([])
-                setMessage(error.data.message)
+                setMessage(error.data)
                 setErr(true)
                 setModal(!modal)
               }
@@ -120,12 +131,12 @@ const ServiceContract: React.FC = () => {
           setLoading(false)
           setModalAlert(!modalAlert)
         })
-    } else if (fornDesc !== '') {
+    } else if (fornDesc !== 'Escolha um fornecedor') {
       setLoading(false)
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`contratoServico/forn/${fornDesc}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/contratoServico/forn/${fornDesc}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
               setLoading(true)
@@ -133,17 +144,17 @@ const ServiceContract: React.FC = () => {
             .catch((error) => {
               if (error.response) {
                 setArrayContratoServico([])
-                setMessage(error.response.data.message)
+                setMessage(error.response.data)
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayContratoServico([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
                 setArrayContratoServico([])
-                setMessage(error.data.message)
+                setMessage(error.data)
                 setErr(true)
                 setModal(!modal)
               }
@@ -155,10 +166,10 @@ const ServiceContract: React.FC = () => {
         })
     } else if (companyDesc !== 'Escolha uma empresa') {
       setLoading(false)
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`contratoServico/empr/${companyDesc}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/contratoServico/empr/${companyDesc}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
               setLoading(true)
@@ -166,17 +177,17 @@ const ServiceContract: React.FC = () => {
             .catch((error) => {
               if (error.response) {
                 setArrayContratoServico([])
-                setMessage(error.response.data.message)
+                setMessage(error.response.data)
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayContratoServico([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
                 setArrayContratoServico([])
-                setMessage(error.data.message)
+                setMessage(error.data)
                 setErr(true)
                 setModal(!modal)
               }
@@ -188,10 +199,10 @@ const ServiceContract: React.FC = () => {
         })
     } else if (subsidiaryDesc !== 'Escolha uma filial') {
       setLoading(false)
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`contratoServico/fili/${subsidiaryDesc}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/contratoServico/fili/${subsidiaryDesc}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
               setLoading(true)
@@ -199,17 +210,17 @@ const ServiceContract: React.FC = () => {
             .catch((error) => {
               if (error.response) {
                 setArrayContratoServico([])
-                setMessage(error.response.data.message)
+                setMessage(error.response.data)
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayContratoServico([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
                 setArrayContratoServico([])
-                setMessage(error.data.message)
+                setMessage(error.data)
                 setErr(true)
                 setModal(!modal)
               }
@@ -219,12 +230,12 @@ const ServiceContract: React.FC = () => {
           setLoading(false)
           setModalAlert(!modalAlert)
         })
-    } else if (localDesc !== '') {
+    } else if (localDesc !== 'Escolha um local') {
       setLoading(false)
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`contratoServico/local/${localDesc}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/contratoServico/local/${localCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
               setLoading(true)
@@ -232,17 +243,50 @@ const ServiceContract: React.FC = () => {
             .catch((error) => {
               if (error.response) {
                 setArrayContratoServico([])
-                setMessage(error.response.data.message)
+                setMessage(error.response.data)
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayContratoServico([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
                 setArrayContratoServico([])
-                setMessage(error.data.message)
+                setMessage(error.data)
+                setErr(true)
+                setModal(!modal)
+              }
+            })
+        })
+        .catch(() => {
+          setLoading(false)
+          setModalAlert(!modalAlert)
+        })
+    } else if (crCod !== '') {
+      setLoading(false)
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
+        .then((json) => {
+          const acessToken = json.data.acessToken
+          axios.get(`${url}${version}/contratoServico/cr/${crCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+            .then((json) => {
+              setResponse(json.data)
+              setLoading(true)
+            })
+            .catch((error) => {
+              if (error.response) {
+                setArrayContratoServico([])
+                setMessage(error.response.data)
+                setErr(true)
+                setModal(!modal)
+              } else if (error.request) {
+                setArrayContratoServico([])
+                setMessage(error.request.data)
+                setErr(true)
+                setModal(!modal)
+              } else {
+                setArrayContratoServico([])
+                setMessage(error.data)
                 setErr(true)
                 setModal(!modal)
               }
@@ -254,10 +298,10 @@ const ServiceContract: React.FC = () => {
         })
     } else {
       setLoading(false)
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get('contratoServico', { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/contratoServico`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
               setLoading(true)
@@ -265,17 +309,17 @@ const ServiceContract: React.FC = () => {
             .catch((error) => {
               if (error.response) {
                 setArrayContratoServico([])
-                setMessage(error.response.data.message)
+                setMessage(error.response.data)
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayContratoServico([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
                 setArrayContratoServico([])
-                setMessage(error.data.message)
+                setMessage(error.data)
                 setErr(true)
                 setModal(!modal)
               }
@@ -286,6 +330,15 @@ const ServiceContract: React.FC = () => {
           setModalAlert(!modalAlert)
         })
     }
+    setInputCod('')
+    setCompanyCod('')
+    setCompanyDesc('Escolha uma empresa')
+    setCompanyCod('')
+    setCompanyDesc('Escolha uma filial')
+    setLocalCod('')
+    setLocalDesc('Escolha um local')
+    setCrCod('')
+    setCrDesc('Escolha um cr')
   }
   return (
     <MenuConainer>
@@ -393,6 +446,10 @@ const ServiceContract: React.FC = () => {
             localDesc={localDesc}
             setModalLocal={setModalLocal}
             modalLocal={modalLocal}
+
+            crDesc={crDesc}
+            setModalCr={setModalCr}
+            modalCr={modalCr}
           />
         </Modal>
         <Modal
@@ -432,6 +489,23 @@ const ServiceContract: React.FC = () => {
         <Modal
           animationType="slide"
           transparent={true}
+          visible={modalCr}
+        >
+          <ModalSelectCrFilter
+            onChange={setCrCod}
+            value={crCod}
+            modalChange={
+              () => {
+                setModalCr(!modalCr)
+              }
+            }
+            setCereDesc={setCrDesc}
+          />
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
           visible={modalCompany}
         >
           <ModalSelectCompany
@@ -459,7 +533,7 @@ const ServiceContract: React.FC = () => {
                 setModalSubsidiary(!modalSubsidiary)
               }
             }
-            setSubsidiary={setCompanyDesc}
+            setSubsidiary={setSubsidiaryDesc}
           />
         </Modal>
 

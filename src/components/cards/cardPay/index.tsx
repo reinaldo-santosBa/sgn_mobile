@@ -211,7 +211,7 @@ const CardPay: React.FC<props> = ({ datas }: props) => {
       </View>
       <View style={styles.cardTextArea}>
         <Text style={styles.cardTextTitle}>Valor : </Text>
-        <Text style={styles.cardTextBody}>{changeReal(valorTotal)}</Text>
+        <Text style={styles.cardTextBody}>{changeReal(Number(valorTotal))}</Text>
       </View>
       <Modal
         animationType="fade"

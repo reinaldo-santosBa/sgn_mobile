@@ -3,21 +3,25 @@ import React, { SetStateAction, useContext, useEffect, useState } from 'react'
 import * as S from './styles'
 import { AuthContext } from '../../../contexts/contextApi'
 import axios from 'axios'
-import { ItemCompany } from './item/index'
+import { ItemItemPlcg } from './item/index'
 import InputModal from '../../input/textInputModal'
+import BtnExit from '../../buttons/btnExit'
 import ModalAlert from '../modalAlert'
 import { useNavigation } from '@react-navigation/native'
 import { FullNavigationProp } from '../../menu/menuContainerCompras'
-import BtnExit from '../../buttons/btnExit'
 
-interface props {
-  onChange: (value: string) => void
+interface props{
+  onChange: (value: string)=>void
   value: string;
   modalChange: () => undefined;
-  setCompany: React.Dispatch<SetStateAction<string>>
+  plgcCod: string;
+  ticrCod: string;
+  cereCod: string;
+  setItemPlgcDesc: React.Dispatch<SetStateAction<string>>
+
 }
 
-const ModalSelectCompany: React.FC<props> = ({ onChange, modalChange, setCompany }) => {
+const ModalSelectItemPcgAplicacao: React.FC<props> = ({ onChange, modalChange, plgcCod, ticrCod, cereCod, setItemPlgcDesc }) => {
   const {
     url,
     version,
@@ -38,7 +42,7 @@ const ModalSelectCompany: React.FC<props> = ({ onChange, modalChange, setCompany
           .then((json) => {
             const acessToken = json.data.acessToken
             axios.get(
-              `${url}${version}/empresa`,
+              `${url}${version}/itemPcg/${plgcCod}/${ticrCod}/${cereCod}`,
               { headers: { Authorization: `Bearer ${acessToken}` } }
             )
               .then((resp) => {
@@ -47,7 +51,7 @@ const ModalSelectCompany: React.FC<props> = ({ onChange, modalChange, setCompany
                 setList(resp.data)
               })
               .catch(() => {
-                setLoading(false)
+                setLoading(!loading)
                 setModalAlert(!modalAlert)
               })
           })
@@ -63,8 +67,7 @@ const ModalSelectCompany: React.FC<props> = ({ onChange, modalChange, setCompany
     if (textSearch !== '') {
       setList(
         response.filter(item => {
-          const name = item.EMPR_NOME.toLowerCase()
-          if (name.indexOf(textSearch.toLowerCase()) > -1) {
+          if (item.ITPC_DESC.indexOf(textSearch) > -1) {
             return true
           }
           return false
@@ -77,19 +80,19 @@ const ModalSelectCompany: React.FC<props> = ({ onChange, modalChange, setCompany
 
   return (
     <S.ModalContainer>
+      <BtnExit
+        func={modalChange}
+      />
       <S.AreaContent
         style={{ elevation: 5 }}
       >
-        <BtnExit
-          func={modalChange}
-        />
         {
           !loading
             ? <ActivityIndicator color={'#000'} size={'large'} />
             : ''
         }
         <InputModal
-          placeholder={'Digite o nome da empresa'}
+          placeholder={'Digite a aplicação'}
           onChange={setTextSearch}
           value={textSearch}
         />
@@ -97,18 +100,17 @@ const ModalSelectCompany: React.FC<props> = ({ onChange, modalChange, setCompany
           data={list}
           renderItem={(item) => {
             return (
-              <ItemCompany
+              <ItemItemPlcg
                 onChange={onChange}
-                nome={`${item.item.EMPR_NOME}`}
+                nome={`${item.item.ITPC_SIGLA} - ${item.item.ITPC_DESC}`}
                 modalChange={modalChange}
-                cod={`${item.item.EMPR_COD}`}
-                setCompany={setCompany}
+                cod={`${item.item.ITPC_COD}`}
+                setItemPlgcDesc={setItemPlgcDesc}
               />
             )
           }}
         />
       </S.AreaContent>
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -127,4 +129,4 @@ const ModalSelectCompany: React.FC<props> = ({ onChange, modalChange, setCompany
   )
 }
 
-export default ModalSelectCompany
+export default ModalSelectItemPcgAplicacao

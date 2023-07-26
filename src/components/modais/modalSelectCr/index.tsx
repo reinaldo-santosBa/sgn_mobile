@@ -7,6 +7,7 @@ import ItemSelectCr from './item'
 import { FullNavigationProp } from '../../menu/menuContainerCompras'
 import { useNavigation } from '@react-navigation/native'
 import ModalAlert from '../modalAlert'
+import InputModal from '../../input/textInputModal'
 
 interface props{
   setNomePlgcCod: (text: string, plgcCod: string, codCr: string) => undefined;
@@ -20,8 +21,10 @@ const ModalSelectCr: React.FC<props> = ({ setNomePlgcCod, modalChange }) => {
     refreshToken
   } = useContext(AuthContext)
   const [response, setResponse] = useState([])
+  const [list, setList] = useState([])
   const [loading, setLoading] = useState(false)
   const [modalAlert, setModalAlert] = useState(false)
+  const [textSearch, setTextSearch] = useState('')
   const navigation = useNavigation<FullNavigationProp>()
   useEffect(() => {
     (
@@ -36,7 +39,8 @@ const ModalSelectCr: React.FC<props> = ({ setNomePlgcCod, modalChange }) => {
             )
               .then((resp) => {
                 setLoading(true)
-                setResponse(resp.data.message)
+                setResponse(resp.data)
+                setList(resp.data)
               })
               .catch((e) => {
                 console.log(e.response.data)
@@ -49,6 +53,23 @@ const ModalSelectCr: React.FC<props> = ({ setNomePlgcCod, modalChange }) => {
       }
     )()
   }, [])
+
+  useEffect(() => {
+    if (textSearch !== '') {
+      setList(
+        response.filter(item => {
+          const nome = item.CERE_NOME.toLowerCase()
+          if (nome.indexOf(textSearch.toLowerCase()) > -1) {
+            return true
+          }
+          return false
+        })
+      )
+    } else {
+      setList(response)
+    }
+  }, [textSearch])
+
   return (
     <S.ModalContainer>
       <S.AreaContent
@@ -59,8 +80,13 @@ const ModalSelectCr: React.FC<props> = ({ setNomePlgcCod, modalChange }) => {
             ? <ActivityIndicator color={'#000'} size={'large'} />
             : ''
         }
+        <InputModal
+          placeholder={'Digite o CR'}
+          onChange={setTextSearch}
+          value={textSearch}
+        />
         <FlatList
-          data={response}
+          data={list}
           renderItem={(item) => {
             return (
               <ItemSelectCr

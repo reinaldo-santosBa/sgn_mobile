@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Container from '../../components/container'
 import { FlatList } from 'react-native-gesture-handler'
-
-import { api } from '../../services/axios'
 import { AuthContext } from '../../contexts/contextApi'
 import { ActivityIndicator, Modal } from 'react-native'
 import ModalPasswordContratoServico from '../../components/modais/modalPasswordContServ'
@@ -13,6 +11,7 @@ import CardItemPurchaseWorksheet from '../../components/cards/cardItemPurchaseWo
 import ModalFilter from '../../components/modais/modalFilter'
 import ModalSelectEmployee from '../../components/modais/modalEmployee'
 import ModalSelectPurchaseSector from '../../components/modais/modalPurchaseSector'
+import axios from 'axios'
 
 const PurchaseWorksheet: React.FC = () => {
   const [loading, setLoading] = useState(false)
@@ -22,6 +21,8 @@ const PurchaseWorksheet: React.FC = () => {
     att,
     bgState,
     setBgState,
+    url,
+    version,
     setArrayPurchaseWorksheet
   } = useContext(AuthContext)
   const [modalPassword, setModalPassword] = useState(false)
@@ -43,31 +44,35 @@ const PurchaseWorksheet: React.FC = () => {
 
   useEffect(() => {
     setLoading(false)
-    api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+    axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
       .then((json) => {
         const acessToken = json.data.acessToken
-        api.get('planilhaDeCompra', { headers: { Authorization: `Bearer ${acessToken}` } })
+        axios.get(`${url}${version}/planilhaDeCompra`, { headers: { Authorization: `Bearer ${acessToken}` } })
           .then((json) => {
-            setResponse(json.data.message)
+            setResponse(json.data)
+            console.log('====================================')
+            console.log(json.data)
+            console.log('====================================')
             setLoading(true)
           })
           .catch((error) => {
             if (error.response) {
               setArrayPurchaseWorksheet([])
-              setMessage(error.response.data.message)
+              setMessage(error.response.data)
               setErr(true)
               setModal(!modal)
             } else if (error.request) {
               setArrayPurchaseWorksheet([])
-              setMessage(error.request.data.message)
+              setMessage(error.request.data)
               setErr(true)
               setModal(!modal)
             } else {
               setArrayPurchaseWorksheet([])
-              setMessage(error.data.message)
+              setMessage(error.data)
               setErr(true)
               setModal(!modal)
             }
+            setLoading(true)
           })
       })
       .catch(() => {
@@ -79,27 +84,27 @@ const PurchaseWorksheet: React.FC = () => {
   const search = () => {
     setLoading(false)
     if (inputCod !== '') {
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`planilhaDeCompra/codigi/${inputCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/planilhaDeCompra/codigo/${inputCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
-              setResponse(json.data.message)
+              setResponse(json.data)
             })
             .catch((error) => {
               if (error.response) {
                 setArrayPurchaseWorksheet([])
-                setMessage(error.response.data.message)
+                setMessage(error.response.data)
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayPurchaseWorksheet([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
                 setArrayPurchaseWorksheet([])
-                setMessage(error.data.message)
+                setMessage(error.data)
                 setErr(true)
                 setModal(!modal)
               }
@@ -110,27 +115,27 @@ const PurchaseWorksheet: React.FC = () => {
           setModalAlert(!modalAlert)
         })
     } else if (employeeCod !== '') {
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`planilhaDeCompra/funcionario/${employeeCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/planilhaDeCompra/funcionario/${employeeCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
-              setResponse(json.data.message)
+              setResponse(json.data)
             })
             .catch((error) => {
               if (error.response) {
                 setArrayPurchaseWorksheet([])
-                setMessage(error.response.data.message)
+                setMessage(error.response.data)
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayPurchaseWorksheet([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
                 setArrayPurchaseWorksheet([])
-                setMessage(error.data.message)
+                setMessage(error.data)
                 setErr(true)
                 setModal(!modal)
               }
@@ -141,27 +146,27 @@ const PurchaseWorksheet: React.FC = () => {
           setModalAlert(!modalAlert)
         })
     } else if (purshingSectorCod !== '') {
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`planilhaDeCompra/setorCompras/${purshingSectorCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/planilhaDeCompra/setorCompras/${purshingSectorCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
-              setResponse(json.data.message)
+              setResponse(json.data)
             })
             .catch((error) => {
               if (error.response) {
                 setArrayPurchaseWorksheet([])
-                setMessage(error.response.data.message)
+                setMessage(error.response.data)
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayPurchaseWorksheet([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
                 setArrayPurchaseWorksheet([])
-                setMessage(error.data.message)
+                setMessage(error.data)
                 setErr(true)
                 setModal(!modal)
               }
@@ -172,27 +177,27 @@ const PurchaseWorksheet: React.FC = () => {
           setModalAlert(!modalAlert)
         })
     } else {
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get('planilhaDeCompra', { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/planilhaDeCompra`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
             })
             .catch((error) => {
               if (error.response) {
                 setArrayPurchaseWorksheet([])
-                setMessage(error.response.data.message)
+                setMessage(error.response.data)
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayPurchaseWorksheet([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
                 setArrayPurchaseWorksheet([])
-                setMessage(error.data.message)
+                setMessage(error.data)
                 setErr(true)
                 setModal(!modal)
               }

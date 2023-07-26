@@ -19,7 +19,7 @@ type FullNavigationProp = NativeStackNavigationProp<
 >;
 
 const ModalPasswordWorksheet: React.FC<props> = ({ func }) => {
-  const { refreshToken, url, version, setAtt, att, arrayPurchaseWorksheet } = useContext(AuthContext)
+  const { refreshToken, url, version, setAtt, att, arrayPurchaseWorksheet, setArrayPurchaseWorksheet } = useContext(AuthContext)
   const navigation = useNavigation<FullNavigationProp>()
   const [password, setPassword] = useState('')
   const [modal, setModal] = useState(false)
@@ -51,17 +51,18 @@ const ModalPasswordWorksheet: React.FC<props> = ({ func }) => {
           bodyParameters,
           config
         ).then((json) => {
-          setMessage([json.data.message])
-          console.log(json.data.message)
+          setMessage([json.data])
+          console.log(json.data)
           setErr(false)
           setModal(!modal)
           setAtt(!att)
+          setArrayPurchaseWorksheet([])
         })
           .catch((error) => {
             if (error.response) {
               setErr(true)
-              console.log(error.response.data.message)
-              setMessage([error.response.data.message])
+              console.log(error.response.data)
+              setMessage([error.response.data])
               setModal(!modal)
             } else if (error.request) {
               setErr(true)

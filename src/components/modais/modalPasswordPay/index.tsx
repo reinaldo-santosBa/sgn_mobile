@@ -1,18 +1,18 @@
 import React, { useState, useContext } from 'react'
 import * as C from './styles'
 import Input from '../../input/textInput'
-import { api } from '../../../services/axios'
 import { AuthContext } from '../../../contexts/contextApi'
 import { Modal } from 'react-native'
 import ModalAlert from '../modalAlert'
 import { FullNavigationProp } from '../../menu/menuContainerCompras'
 import { useNavigation } from '@react-navigation/native'
+import axios from 'axios'
 
 interface props {
   func: () => void;
 }
 const ModalPasswordPay: React.FC<props> = ({ func }) => {
-  const { refreshToken, arrayPagar, setArrayPagar, setAttResponse, attResponse } = useContext(AuthContext)
+  const { refreshToken, arrayPagar, setArrayPagar, setAttResponse, attResponse, version, url } = useContext(AuthContext)
   const [password, setPassword] = useState('')
   const [err, setErr] = useState(false)
   const [message, setMessage] = useState([])
@@ -26,7 +26,7 @@ const ModalPasswordPay: React.FC<props> = ({ func }) => {
       setModal(!modal)
       return
     }
-    api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+    axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
       .then((json) => {
         const acessToken = json.data.acessToken
         const config = {
@@ -38,8 +38,8 @@ const ModalPasswordPay: React.FC<props> = ({ func }) => {
           arrayPay: arrayPagar
         }
 
-        api.post(
-          'pagar',
+        axios.post(
+          `${url}${version}/pagar`,
           bodyParameters,
           config
         ).then((json) => {

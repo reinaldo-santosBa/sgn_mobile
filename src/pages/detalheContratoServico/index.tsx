@@ -1,6 +1,5 @@
 import { ActivityIndicator, BackHandler, FlatList, Modal, View } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
-import { api } from '../../services/axios'
 import Button from '../../components/buttons/buttonConfAction'
 import { useNavigation } from '@react-navigation/native'
 import { AuthContext } from '../../contexts/contextApi'
@@ -10,6 +9,7 @@ import ModalPasswordContratoServico from '../../components/modais/modalPasswordC
 import { RootStackParamList } from '../../routes/fullScreen.routes'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import ModalAlert from '../../components/modais/modalAlert'
+import axios from 'axios'
 
 export type FullNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -31,13 +31,15 @@ interface params{
         LOCA_DESC: string;
         COCS_COD: string;
         ASS: string;
+        CERE_NOME: string;
+        CERE_SIGLA: string
       }
     }
   }
 }
 
 const DetalheContratoServico: React.FC = ({ route }: params) => {
-  const { refreshToken, setArrayContratoServico } = useContext(AuthContext)
+  const { refreshToken, setArrayContratoServico, url, version } = useContext(AuthContext)
   const [modalPassword, setModalPassword] = useState(false)
   const dados = route.params.item
   const cocsCod = dados.COCS_COD
@@ -64,11 +66,14 @@ const DetalheContratoServico: React.FC = ({ route }: params) => {
 
   useEffect(
     () => {
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`contratoServico/detalhes/${cocsCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/contratoServico/detalhes/${cocsCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((response) => {
+              console.log('====================================')
+              console.log(response.data)
+              console.log('====================================')
               setData(response.data)
               setLoading(true)
             })

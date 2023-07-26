@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Container from '../../components/container'
 import { FlatList } from 'react-native-gesture-handler'
-import { api } from '../../services/axios'
 import { AuthContext } from '../../contexts/contextApi'
 import { ActivityIndicator, Modal } from 'react-native'
 import BtnEmMassa from '../../components/buttons/btnPedidoMassa'
@@ -15,7 +14,10 @@ import { useNavigation } from '@react-navigation/native'
 import ModalPasswordContratoServicoBulletin from '../../components/modais/modalPasswordContServBulletin'
 import ModalFilter from '../../components/modais/modalFilter'
 import ModalSelectSupplier from '../../components/modais/modalSupplier'
-import BtnAdd from '../../components/buttons/btnAdd'
+// import BtnAdd from '../../components/buttons/btnAdd'
+// import BtnListApproval from '../../components/buttons/btnListApproval'
+import axios from 'axios'
+import ModalSelectCrFilter from '../../components/modais/modalCRSelect'
 
 const ServiceContractBulletin: React.FC = () => {
   const [loading, setLoading] = useState(false)
@@ -26,7 +28,9 @@ const ServiceContractBulletin: React.FC = () => {
     arrayContratoServicoBulletin,
     setArrayContratoServicoBulletin,
     setBgState,
-    bgState
+    bgState,
+    url,
+    version
   } = useContext(AuthContext)
   const [modalPassword, setModalPassword] = useState(false)
   const [modal, setModal] = useState(false)
@@ -40,27 +44,63 @@ const ServiceContractBulletin: React.FC = () => {
   const [inputCod, setInputCod] = useState('')
   const [inputNum, setInputNum] = useState('')
   const [modalFilter, setModalFilter] = useState(false)
+  const [crDesc, setCrDesc] = useState('Escolha um Cr')
+  const [modalCr, setModalCr] = useState(false)
+  const [crCod, setCrCod] = useState('')
+
+  // const approvalList = () => {
+  //   axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
+  //     .then((json) => {
+  //       const acessToken = json.data.acessToken
+  //       axios.get(`${url}${version}/boletimServico/approveded`, { headers: { Authorization: `Bearer ${acessToken}` } })
+  //         .then((json) => {
+  //           setResponse(json.data)
+  //           setLoading(true)
+  //         })
+  //         .catch((error) => {
+  //           if (error.response) {
+  //             setArrayContratoServicoBulletin([])
+  //             setMessage([error.response.data])
+  //             setErr(true)
+  //             setModal(!modal)
+  //           } else if (error.request) {
+  //             setArrayContratoServicoBulletin([])
+  //             setMessage(error.request.data)
+  //             setErr(true)
+  //             setModal(!modal)
+  //           } else {
+  //             setArrayContratoServicoBulletin([])
+  //             setMessage(error.data)
+  //             setErr(true)
+  //             setModal(!modal)
+  //           }
+  //         })
+  //     })
+  //     .catch(() => {
+  //       setLoading(true)
+  //       setModalAlert(!modalAlert)
+  //     })
+  // }
 
   useEffect(() => {
     setLoading(false)
-    api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+    axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
       .then((json) => {
         const acessToken = json.data.acessToken
-        api.get('boletimServico', { headers: { Authorization: `Bearer ${acessToken}` } })
+        axios.get(`${url}${version}/boletimServico`, { headers: { Authorization: `Bearer ${acessToken}` } })
           .then((json) => {
             setResponse(json.data)
-
             setLoading(true)
           })
           .catch((error) => {
             if (error.response) {
               setArrayContratoServicoBulletin([])
-              setMessage(error.response.data.message)
+              setMessage([error.response.data])
               setErr(true)
               setModal(!modal)
             } else if (error.request) {
               setArrayContratoServicoBulletin([])
-              setMessage(error.request.data.message)
+              setMessage(error.request.data)
               setErr(true)
               setModal(!modal)
             } else {
@@ -72,7 +112,7 @@ const ServiceContractBulletin: React.FC = () => {
           })
       })
       .catch(() => {
-        setLoading(false)
+        setLoading(true)
         setModalAlert(!modalAlert)
       })
   }, [attResponse])
@@ -81,25 +121,22 @@ const ServiceContractBulletin: React.FC = () => {
     setLoading(false)
     if (inputCod !== '') {
       setLoading(false)
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`boletimServico/contrato/${inputCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/boletimServico/contrato/${inputCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
-              console.log('====================================')
-              console.log(json.data)
-              console.log('====================================')
               setResponse(json.data)
             })
             .catch((error) => {
               if (error.response) {
                 setArrayContratoServicoBulletin([])
-                setMessage(error.response.data.message)
+                setMessage([error.response.data])
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayContratoServicoBulletin([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
@@ -116,22 +153,22 @@ const ServiceContractBulletin: React.FC = () => {
         })
     } else if (inputNum !== '') {
       setLoading(false)
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`boletimServico/numero/${inputNum}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/boletimServico/numero/${inputNum}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
             })
             .catch((error) => {
               if (error.response) {
                 setArrayContratoServicoBulletin([])
-                setMessage(error.response.data.message)
+                setMessage([error.response.data])
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayContratoServicoBulletin([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
@@ -148,22 +185,25 @@ const ServiceContractBulletin: React.FC = () => {
         })
     } else if (supplierCod !== '') {
       setLoading(false)
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`boletimServico/fornecedor/${supplierCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/boletimServico/fornecedor/${supplierCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
+              console.log('====================================')
+              console.log(json.data)
+              console.log('====================================')
               setResponse(json.data)
             })
             .catch((error) => {
               if (error.response) {
                 setArrayContratoServicoBulletin([])
-                setMessage(error.response.data.message)
+                setMessage([error.response.data])
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayContratoServicoBulletin([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
@@ -175,26 +215,59 @@ const ServiceContractBulletin: React.FC = () => {
             })
         })
         .catch(() => {
-          setLoading(false)
+          setModalAlert(!modalAlert)
+        })
+    } else if (crCod !== '') {
+      setLoading(false)
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
+        .then((json) => {
+          const acessToken = json.data.acessToken
+          axios.get(`${url}${version}/boletimServico/cr/${crCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+            .then((json) => {
+              console.log('====================================')
+              console.log(json.data)
+              console.log('====================================')
+              setResponse(json.data)
+            })
+            .catch((error) => {
+              if (error.response) {
+                setArrayContratoServicoBulletin([])
+                setMessage([error.response.data])
+                setErr(true)
+                setModal(!modal)
+              } else if (error.request) {
+                setArrayContratoServicoBulletin([])
+                setMessage(error.request.data)
+                setErr(true)
+                setModal(!modal)
+              } else {
+                setArrayContratoServicoBulletin([])
+                setMessage(error.data)
+                setErr(true)
+                setModal(!modal)
+              }
+            })
+        })
+        .catch(() => {
           setModalAlert(!modalAlert)
         })
     } else {
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get('boletimServico', { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/boletimServico`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
             })
             .catch((error) => {
               if (error.response) {
                 setArrayContratoServicoBulletin([])
-                setMessage(error.response.data.message)
+                setMessage([error.response.data])
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
                 setArrayContratoServicoBulletin([])
-                setMessage(error.request.data.message)
+                setMessage(error.request.data)
                 setErr(true)
                 setModal(!modal)
               } else {
@@ -206,11 +279,16 @@ const ServiceContractBulletin: React.FC = () => {
             })
         })
         .catch(() => {
-          setLoading(false)
           setModalAlert(!modalAlert)
         })
     }
     setLoading(true)
+    setCrCod('')
+    setCrDesc('Escolha um CR')
+    setSupplierDesc('Escolha um fornecedor')
+    setSupplierCod('')
+    setInputNum('')
+    setInputCod('')
   }
 
   return (
@@ -227,11 +305,15 @@ const ServiceContractBulletin: React.FC = () => {
           />
           : ''
         }
-        <BtnAdd
+        {/* <BtnAdd
           func={() => {
             navigation.navigate('BulletinCreate')
           }}
         />
+        <BtnListApproval
+          func={approvalList}
+        /> */}
+
         <BtnFilter
           func={() => {
             setModalFilter(!modalFilter)
@@ -270,6 +352,9 @@ const ServiceContractBulletin: React.FC = () => {
             inputNum={inputNum}
             setInputNum={setInputNum}
 
+            crDesc={crDesc}
+            setModalCr={setModalCr}
+            modalCr={modalCr}
           />
         </Modal>
         {
@@ -339,7 +424,22 @@ const ServiceContractBulletin: React.FC = () => {
           error={true}
         />
       </Modal>
-
+      <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalCr}
+        >
+          <ModalSelectCrFilter
+            onChange={setCrCod}
+            value={crCod}
+            modalChange={
+              () => {
+                setModalCr(!modalCr)
+              }
+            }
+            setCereDesc={setCrDesc}
+          />
+        </Modal>
       <Modal
         animationType="slide"
         transparent={true}

@@ -46,8 +46,8 @@ const ModalSelectCr: React.FC<props> = ({ onChange, modalChange, setCereDesc, al
             )
               .then((resp) => {
                 setLoading(!loading)
-                setResponse(resp.data.message)
-                setList(resp.data.message)
+                setResponse(resp.data)
+                setList(resp.data)
               })
               .catch(() => {
                 setLoading(!loading)
@@ -91,7 +91,7 @@ const ModalSelectCr: React.FC<props> = ({ onChange, modalChange, setCereDesc, al
             : ''
         }
         <InputModal
-          placeholder={'Digite o nome do almoxarifado'}
+          placeholder={'Digite o CR'}
           onChange={setTextSearch}
           value={textSearch}
         />

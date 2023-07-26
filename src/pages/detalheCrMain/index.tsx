@@ -52,25 +52,25 @@ const DetalheCrMain: React.FC = () => {
           .then(async (resp) => {
             setLoading(true)
             console.log('====================================')
-            console.log(resp.data.message)
+            console.log(resp.data)
             console.log('====================================')
             navigation.navigate('DetalheCrDados', {
               dtFormatadaIni,
               dtFormatadaFim,
               despesa: {
-                abertoDespesa: resp.data.message.despesa.abertoDespesa,
-                baixadoDespesa: resp.data.message.despesa.baixadoDespesa,
-                totalDespesa: resp.data.message.despesa.totalDespesa
+                abertoDespesa: resp.data.despesa.abertoDespesa,
+                baixadoDespesa: resp.data.despesa.baixadoDespesa,
+                totalDespesa: resp.data.despesa.totalDespesa
               },
               receita: {
-                abertoReceita: resp.data.message.receita.abertoReceita,
-                baixadoReceita: resp.data.message.receita.baixadoReceita,
-                totalReceita: resp.data.message.receita.totalReceita
+                abertoReceita: resp.data.receita.abertoReceita,
+                baixadoReceita: resp.data.receita.baixadoReceita,
+                totalReceita: resp.data.receita.totalReceita
               },
               totais: {
-                aberto: resp.data.message.totais.aberto,
-                baixado: resp.data.message.totais.baixado,
-                total: resp.data.message.totais.total
+                aberto: resp.data.totais.aberto,
+                baixado: resp.data.totais.baixado,
+                total: resp.data.totais.total
               }
             })
           })
@@ -87,6 +87,12 @@ const DetalheCrMain: React.FC = () => {
           setModal(!modal)
         }
       )
+    setDtFormatadaIni('Escolha a data inicial')
+    setDtFormatadaIniRequest('')
+    setDtFormatadaFimRequest('')
+    setDtFormatadaFim('Escolha a data final')
+    setTextCr('Escolha o Cr')
+    setCodCr('')
   }
 
   return (

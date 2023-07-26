@@ -57,7 +57,8 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }: SignUpProps) => {
           {
 
             USUA_SIGLA: user,
-            USUA_SENHA_APP: password
+            USUA_SENHA_APP: password,
+            DATABASE: resp.data.message.DACO_DATABASE
           }
         )
           .then(

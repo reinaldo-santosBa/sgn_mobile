@@ -62,7 +62,8 @@ const ModalSelectSubsidiary: React.FC<props> = ({ onChange, modalChange, setSubs
     if (textSearch !== '') {
       setList(
         response.filter(item => {
-          if (item.FILI_NOME_FANTASIA.indexOf(textSearch) > -1) {
+          const name = item.FILI_NOME_FANTASIA.toLowerCase()
+          if (name.indexOf(textSearch.toLowerCase()) > -1) {
             return true
           }
           return false
@@ -87,7 +88,7 @@ const ModalSelectSubsidiary: React.FC<props> = ({ onChange, modalChange, setSubs
             : ''
         }
         <InputModal
-          placeholder={'Digite o nome do funcionario'}
+          placeholder={'Digite o nome da filial'}
           onChange={setTextSearch}
           value={textSearch}
         />

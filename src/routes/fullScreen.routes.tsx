@@ -1,4 +1,4 @@
-import React, { SetStateAction } from 'react'
+import React from 'react'
 
 import SplashScreen from '../pages/splashScreen'
 
@@ -47,7 +47,7 @@ export type RootStackParamList = {
         VALOR_TOTAL_ITEM: string;
         PEDI_FORN_COD: string;
         PEDI_NUMERO: string;
-        responseFunc: React.Dispatch<SetStateAction<[]>>
+        EMPR_NOME: string;
     };
     Gerencial: undefined;
     MovDiaria: undefined;
@@ -96,7 +96,9 @@ export type RootStackParamList = {
             FORN_NOME: string,
             EMPR_NOME: string,
             FILI_NOME_FANTASIA: string,
-            LOCA_DESC: string
+            LOCA_DESC: string;
+            CERE_SIGLA: string;
+            CERE_NOME: string;
         }
     };
     ServiceContractBulletin: undefined;

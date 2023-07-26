@@ -66,7 +66,7 @@ const DetalhePay: React.FC = ({ route }: params) => {
   const [modal, setModal] = useState(false)
   const navigation = useNavigation<FullNavigationProp>()
   const backAction = () => {
-    navigation.navigate('ServiceContract')
+    navigation.navigate('AcceptPay')
     return true
   }
   useEffect(() => {

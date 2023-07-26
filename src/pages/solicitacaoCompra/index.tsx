@@ -48,6 +48,9 @@ const SolicitacaoCompras: React.FC = ({ navigation }: any) => {
         const acessToken = json.data.acessToken
         axios.get(`${url}${version}/solicitacaoCompra`, { headers: { Authorization: `Bearer ${acessToken}` } })
           .then((json) => {
+            console.log('====================================')
+            console.log(json.data)
+            console.log('====================================')
             setResponse(json.data)
             setLoading(true)
           })
@@ -55,11 +58,11 @@ const SolicitacaoCompras: React.FC = ({ navigation }: any) => {
             setLoading(false)
             if (error.response) {
               setErr(true)
-              setMessage([error.response.data.message])
+              setMessage([error.response.data])
               setModal(!modal)
             } else if (error.request) {
               setErr(true)
-              setMessage([error.request.data.mesage])
+              setMessage([error.request.data])
               setModal(!modal)
             } else {
               setErr(true)
@@ -96,9 +99,6 @@ const SolicitacaoCompras: React.FC = ({ navigation }: any) => {
           const acessToken = json.data.acessToken
           axios.get(`${url}${version}/solicitacaoCompra/numero/${number}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
-              console.log('====================================')
-              console.log(json.data)
-              console.log('====================================')
               setResponse(json.data)
             })
             .catch((error) => {
@@ -156,6 +156,9 @@ const SolicitacaoCompras: React.FC = ({ navigation }: any) => {
         })
     } else if (dtFormatadaRequest !== '') {
       setLoading(false)
+      console.log('====================================')
+      console.log(1)
+      console.log('====================================')
       axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
@@ -222,7 +225,7 @@ const SolicitacaoCompras: React.FC = ({ navigation }: any) => {
       axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          axios.get(`${url}${version}/solicitacaoCompra/cr/${crDesc}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/solicitacaoCompra/cr/${crCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
             })

@@ -1,6 +1,5 @@
 import { FlatList, Modal, ActivityIndicator, BackHandler, Text } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import { api } from '../../services/axios'
 import { AuthContext } from '../../contexts/contextApi'
 import ModalAlert from '../../components/modais/modalAlert'
 import { FullNavigationProp } from '../comprasHome'
@@ -8,6 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import Container from '../../components/container'
 import CardDetailsFornPurchaseWorksheet from '../../components/cards/cardDetailsFornPurchaseWorksheet'
 import BtnBack from '../../components/buttons/btnBack'
+import axios from 'axios'
 
 interface params {
   route: {
@@ -28,17 +28,19 @@ const PriceDetailsPurchaseWorksheet: React.FC<params> = ({ route }) => {
   const navigation = useNavigation<FullNavigationProp>()
 
   const {
-    refreshToken
+    refreshToken,
+    url,
+    version
   } = useContext(AuthContext)
 
   useEffect(() => {
     (
       async () => {
         setLoading(!loading)
-        api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+        axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
           .then((json) => {
             const acessToken = json.data.acessToken
-            api.get(`planilhaDeCompra/cotacao/${route.params.PLAC_COD}/${route.params.PLAF_FORN_COD}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+            axios.get(`${url}${version}/planilhaDeCompra/cotacao/${route.params.PLAC_COD}/${route.params.PLAF_FORN_COD}`, { headers: { Authorization: `Bearer ${acessToken}` } })
               .then((response) => {
                 setResponse(response.data.message)
                 setLoading(true)

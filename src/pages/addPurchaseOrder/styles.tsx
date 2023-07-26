@@ -1,14 +1,14 @@
 import styled from 'styled-components/native'
 
 export const AreaForm = styled.KeyboardAvoidingView`
-  width: 80%;
-  height: 80%;
-  background-color: #FFF;
+  width: 100%;
+  height: 100%;
   border-radius: 20px;
-  padding: 20px;
+  padding: 20px 30px;
 `
 
 export const AreaProgressBar = styled.View`
+  margin-top: 30px;
   width: 100%;
   height: 50px;
   display: flex;
@@ -90,6 +90,19 @@ export const ButtonPrevProx = styled.TouchableOpacity <btnProps>`
   align-items: center;
   justify-content: center;
 `
+export const BtnDireto = styled.Pressable`
+  flex-direction: row;
+  gap:10px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 20px;
+`
+
+export const TxtBtnDireto = styled.Text`
+  color: #121212;
+  font-size: 20px;
+`
+
 export const ButtonAdd = styled.TouchableOpacity`
   height: 40px;
   background-color: #3470A4;

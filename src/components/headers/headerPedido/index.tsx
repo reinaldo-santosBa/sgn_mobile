@@ -53,13 +53,13 @@ const HeaderPedido: React.FC<props> = ({
         <Text style={styles.text}><Text style={styles.title}>Fornecedor: </Text>{FORN_NOME}</Text>
         <Text style={styles.text}><Text style={styles.title}>Data de pedido: </Text>{formartData}</Text>
         <Text style={styles.text}><Text style={styles.title}>Empresa: </Text>{EMPR_NOME}</Text>
-        <Text style={styles.text}><Text style={styles.title}>Desconto: </Text>{changeReal(PEDI_DESCONTO)}</Text>
-        <Text style={styles.text}><Text style={styles.title}>Frete: </Text>{changeReal(PEDI_FRETE)}</Text>
+        <Text style={styles.text}><Text style={styles.title}>Desconto: </Text>{changeReal(Number(PEDI_DESCONTO))}</Text>
+        <Text style={styles.text}><Text style={styles.title}>Frete: </Text>{changeReal(Number(PEDI_FRETE))}</Text>
         <Text style={styles.text}><Text style={styles.title}>Número do pedido: </Text>{PEDI_NUMERO}</Text>
         <Text style={styles.text}><Text style={styles.title}>Observação: </Text>{obs}</Text>
-        <Text style={styles.text}><Text style={styles.title}>Total mercadoria: </Text>{changeReal(PEDI_TOTAL_MERC)}</Text>
-        <Text style={styles.text}><Text style={styles.title}>Valor aprovado: </Text>{changeReal(PEDI_VALOR_APROVADO)}</Text>
-        <Text style={styles.text}><Text style={styles.title}>Valor total: </Text>{changeReal(valorTotal)}</Text>
+        <Text style={styles.text}><Text style={styles.title}>Total mercadoria: </Text>{changeReal(Number(PEDI_TOTAL_MERC))}</Text>
+        <Text style={styles.text}><Text style={styles.title}>Valor aprovado: </Text>{changeReal(Number(PEDI_VALOR_APROVADO))}</Text>
+        <Text style={styles.text}><Text style={styles.title}>Valor total: </Text>{changeReal(Number(valorTotal))}</Text>
       </View>
     </View>
   )

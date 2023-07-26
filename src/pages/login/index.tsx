@@ -69,13 +69,18 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
       url: `${linkSGN}/${version}/dataConnection/${cnpjLogin}`
     })
       .then((resp) => {
+        console.log('====================================')
+        console.log(1)
+        console.log('====================================')
         setUrl(resp.data.message.DACO_URL)
         setDataBase(resp.data.message.DACO_DATABASE)
         axios.post(`${resp.data.message.DACO_URL}${version}/usuario/login`,
           {
 
             USUA_SIGLA: usuaSigla,
-            USUA_SENHA_APP: usuaSenha
+            USUA_SENHA_APP: usuaSenha,
+            DATABASE: resp.data.message.DACO_DATABASE
+
           }
         )
           .then(
@@ -90,7 +95,7 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
           )
           .catch((error) => {
             console.log('====================================')
-            console.log(error.response)
+            console.log(error.response.data)
             console.log('====================================')
             setPassword('')
             setLoading(false)
@@ -205,6 +210,7 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
 
   useEffect(() => {
     const platform = Platform.OS
+
     axios({
       method: 'get',
       url: `${linkSGN}/${version}/atualizacao/${platform}/${versionApp}`

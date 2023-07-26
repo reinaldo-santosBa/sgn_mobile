@@ -39,11 +39,11 @@ const ModalPasswordSoliCompra: React.FC<props> = ({ func, posAss, cod, valor }) 
 
         const bodyParameters = {
           USUA_SENHA_APP: password,
-          arraySolicitacaoCompra: [[
-            cod,
-            posAss,
-            valor
-          ]]
+          arraySolicitacaoCompra: [{
+            socoCod: cod,
+            pos: posAss,
+            valTotal: valor
+          }]
         }
 
         axios.patch(

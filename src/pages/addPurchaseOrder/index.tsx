@@ -6,6 +6,7 @@ import { RootStackParamList } from '../../routes/fullScreen.routes'
 import { useNavigation } from '@react-navigation/native'
 import * as S from './styles'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import IconAnt from 'react-native-vector-icons/AntDesign'
 import ButtonSelectAddPurchase from '../../components/buttons/ButtonSelectAddPurchase'
 import ModalSelectPurchaseSector from '../../components/modais/modalPurchaseSector'
 import ModalSelectWerehouse from '../../components/modais/modalWerehouse'
@@ -23,6 +24,7 @@ import axios from 'axios'
 import { AuthContext } from '../../contexts/contextApi'
 import MenuConainer from '../../components/menu/menuContainerCompras'
 import ModalAlert from '../../components/modais/modalAlert'
+import ModalSelectItemPcgAplicacao from '../../components/modais/modalItemPcgAplicacao'
 
 interface mateArray {
   mateDesc: string;
@@ -52,6 +54,9 @@ const AddPurchaseOrder: React.FC = () => {
   const [modalItemPcg, setModalItemPcg] = useState(false)
   const [itemPcgDesc, setItemPcgDesc] = useState('Escolha o item pcg')
   const [itemPcgCod, setItemPcgCod] = useState('')
+  const [modalItemPcgAplication, setModalItemPcgAplication] = useState(false)
+  const [itemPcgAplicationDesc, setItemPcgAplicationDesc] = useState('Escolha a aplicação')
+  const [itemPcgAplicationCod, setItemPcgAplicationCod] = useState('')
   const [modalMate, setModalMate] = useState(false)
   const [mateDesc, setMateDesc] = useState('Escolha o produto / serviço')
   const [mateCod, setMateCod] = useState('')
@@ -75,6 +80,7 @@ const AddPurchaseOrder: React.FC = () => {
   const [numAprov, setNumAprov] = useState('')
   const [numTodas, setNumTodas] = useState('')
   const [modal, setModal] = useState(false)
+  const [btnDireto, setBtnDireto] = useState(false)
 
   type FullNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -84,7 +90,7 @@ const AddPurchaseOrder: React.FC = () => {
   const handleClickAdd = () => {
     let contains = false
     arrayMaterial.forEach(element => {
-      if (element[0].mateCod === mateCod) {
+      if (element.mateCod === mateCod) {
         contains = true
       }
     })
@@ -92,9 +98,9 @@ const AddPurchaseOrder: React.FC = () => {
     if (contains) {
       setArrayMaterial(
         arrayMaterial.filter(item => {
-          if (item[0].mateCod === mateCod) {
-            const operation = parseFloat(item[0].mateQuantidade) + parseFloat(quantidade)
-            item[0].mateQuantidade = operation
+          if (item.mateCod === mateCod) {
+            const operation = parseFloat(item.mateQuantidade) + parseFloat(quantidade)
+            item.mateQuantidade = operation
           }
           return true
         })
@@ -134,7 +140,7 @@ const AddPurchaseOrder: React.FC = () => {
       }
     }
 
-    setArrayMaterial((arrayMaterial: mateArray[]) => [...arrayMaterial, [newElement]])
+    setArrayMaterial((arrayMaterial: mateArray[]) => [...arrayMaterial, newElement])
   }
 
   const {
@@ -170,8 +176,8 @@ const AddPurchaseOrder: React.FC = () => {
               { headers: { Authorization: `Bearer ${acessToken}` } }
             )
               .then((response) => {
-                setNumAprov(response.data.message[0].PAGE_NUM_APROVACOES_SOLIC)
-                setNumTodas(response.data.message[0].PAGE_TODAS_APROVACOES_SOLIC)
+                setNumAprov(response.data[0].PAGE_NUM_APROVACOES_SOLIC)
+                setNumTodas(response.data[0].PAGE_TODAS_APROVACOES_SOLIC)
               })
               .catch((e) => {
                 console.log('====================================')
@@ -202,6 +208,11 @@ const AddPurchaseOrder: React.FC = () => {
       } else if (itemPcgCod === '') {
         alert('Item Pcg é obrigatorio')
         return
+      } else if (btnDireto) {
+        if (itemPcgAplicationCod === '') {
+          alert('Aplicação é obrigatorio')
+          return
+        }
       }
       setText1(!text1)
       setBgPrevColor('#c22e2e')
@@ -245,28 +256,35 @@ const AddPurchaseOrder: React.FC = () => {
           if (tipoMaterial === 'Produto') {
             bodyOption = {
               secoCod,
-              itpcCod: itemPcgCod,
+              itpcRateioCod: itemPcgCod,
               cereCod: crCod,
               almoCod,
               dtNece: dtFormatadaRequest,
               arrayMaterial,
               pessCodSoli: employeeCod,
               ass1: aproval1Cod,
-              ass2
+              ass2,
+              itpcCod: itemPcgAplicationCod,
+              debitoDireto: btnDireto ? 'S' : 'N'
             }
           } else {
             bodyOption = {
               secoCod,
-              itpcCod: itemPcgCod,
+              itpcRateioCod: itemPcgCod,
               cereCod: crCod,
               almoCod,
               dtNece: dtFormatadaRequest,
               arrayMaterial,
               pessCodSoli: employeeCod,
               ass1: aproval1Cod,
-              ass2
+              ass2,
+              itpcCod: itemPcgAplicationCod,
+              debitoDireto: btnDireto ? 'S' : 'N'
             }
           }
+          console.log('====================================')
+          console.log(arrayMaterial)
+          console.log('====================================')
           await axios.post(
             `${url}${version}/solicitacaoCompra/create`,
             bodyOption,
@@ -278,12 +296,12 @@ const AddPurchaseOrder: React.FC = () => {
               console.log(response)
               console.log('====================================')
               alert(response.data.message)
-              navigation.navigate('SolicitacaoCompra')
+              // navigation.navigate('SolicitacaoCompra')
             })
             .catch((e) => {
-              alert(e)
+              alert(e.response)
               console.log('====================================')
-              console.log(e.data)
+              console.log(e.response.data)
               console.log('====================================')
             })
           console.log('====================================')
@@ -329,7 +347,7 @@ const AddPurchaseOrder: React.FC = () => {
   const handleClickSub = (cod: string) => {
     setArrayMaterial(
       arrayMaterial.filter(item => {
-        if (item[0].mateCod === cod) {
+        if (item.mateCod === cod) {
           return false
         }
         return true
@@ -340,9 +358,7 @@ const AddPurchaseOrder: React.FC = () => {
   return (
     <MenuConainer>
       <Container>
-        <S.AreaForm
-          style={{ elevation: 10 }}
-        >
+        <S.AreaForm>
           <S.AreaProgressBar>
             <S.IconStep>
               {
@@ -472,7 +488,6 @@ const AddPurchaseOrder: React.FC = () => {
                     setTircCod={setTircCod}
                   />
                 </Modal>
-
                 <ButtonSelectAddPurchase
                   text={itemPcgDesc}
                   handleClick={
@@ -485,6 +500,7 @@ const AddPurchaseOrder: React.FC = () => {
                     }
                   }
                 />
+
                 <Modal
                   animationType="slide"
                   transparent={true}
@@ -502,6 +518,61 @@ const AddPurchaseOrder: React.FC = () => {
                     ticrCod={tircCod}
                   />
                 </Modal>
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={modalItemPcgAplication}
+                >
+                  <ModalSelectItemPcgAplicacao
+                    onChange={setItemPcgAplicationCod}
+                    value={itemPcgAplicationCod}
+                    modalChange={() => {
+                      setModalItemPcgAplication(!modalItemPcgAplication)
+                    }}
+                    setItemPlgcDesc={setItemPcgAplicationDesc}
+                    plgcCod={plgcCod}
+                    cereCod={crCod}
+                    ticrCod={tircCod}
+                  />
+                </Modal>
+                <View>
+                  <S.BtnDireto
+                    onPress={() => {
+                      setBtnDireto(!btnDireto)
+                    }}
+                  >
+                    {
+                      !btnDireto
+                        ? <IconAnt
+                          name={'closesquareo'}
+                          size={30}
+                          color="#121212"
+                        />
+                        : <IconAnt
+                          name={'checksquareo'}
+                          size={30}
+                          color="#121212"
+                        />
+                    }
+                    <S.TxtBtnDireto>Debito direto</S.TxtBtnDireto>
+                  </S.BtnDireto>
+                  {
+                    !btnDireto
+                      ? ''
+                      : <ButtonSelectAddPurchase
+                      text={itemPcgAplicationDesc}
+                      handleClick={
+                        () => {
+                          if (crCod === '') {
+                            alert('Escolha o centro de resultado')
+                            return
+                          }
+                          setModalItemPcgAplication(!modalItemPcgAplication)
+                        }
+                      }
+                    />
+                  }
+                </View>
               </S.AreaInput>
               : ''
           }
@@ -576,14 +647,15 @@ const AddPurchaseOrder: React.FC = () => {
 
                 <S.AreaInput2Flat
                   data={arrayMaterial}
-                  renderItem={(item) => {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  renderItem={(item: any) => {
                     return (
                       <ItemMaterial
-                        materialDesc={item.item[0].mateDesc}
-                        quantidade={item.item[0].mateQuantidade}
-                        unidadeMedi={item.item[0].mateUnidMatSigla}
+                        materialDesc={item.item.mateDesc}
+                        quantidade={item.item.mateQuantidade}
+                        unidadeMedi={item.item.mateUnidMatSigla}
                         handleClick={handleClickSub}
-                        materialCod={item.item[0].mateCod}
+                        materialCod={item.item.mateCod}
                       />
                     )
                   }}

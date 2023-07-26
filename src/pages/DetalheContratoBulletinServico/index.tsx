@@ -1,6 +1,5 @@
 import { ActivityIndicator, BackHandler, FlatList, Modal, View } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
-import { api } from '../../services/axios'
 import Button from '../../components/buttons/buttonConfAction'
 import { useNavigation } from '@react-navigation/native'
 import { AuthContext } from '../../contexts/contextApi'
@@ -10,6 +9,7 @@ import ModalAlert from '../../components/modais/modalAlert'
 import { HeaderContractBulletinService } from '../../components/headers/headerServiceBulletinContract'
 import { CardItemServiceContractBulletin } from '../../components/cards/cardItemServiceContractBulletin'
 import ModalPasswordContratoServicoBulletin from '../../components/modais/modalPasswordContServBulletin'
+import axios from 'axios'
 
 export type FullNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -41,7 +41,9 @@ interface propsRoute {
 const DetalheContratoBulletinServico: React.FC<propsRoute> = ({ route }) => {
   const {
     refreshToken,
-    setArrayContratoServicoBulletin
+    setArrayContratoServicoBulletin,
+    url,
+    version
   } = useContext(AuthContext)
   const [modalPassword, setModalPassword] = useState(false)
   const dados = route.params
@@ -72,10 +74,10 @@ const DetalheContratoBulletinServico: React.FC<propsRoute> = ({ route }) => {
 
   useEffect(
     () => {
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get(`boletimServico/${cocsCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/boletimServico/${cocsCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((response) => {
               console.log('====================================')
               console.log(response)

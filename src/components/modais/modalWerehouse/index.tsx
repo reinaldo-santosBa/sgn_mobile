@@ -43,8 +43,8 @@ const ModalSelectWerehouse: React.FC<props> = ({ onChange, modalChange, setAlmoD
             )
               .then((resp) => {
                 setLoading(true)
-                setResponse(resp.data.message)
-                setList(resp.data.message)
+                setResponse(resp.data)
+                setList(resp.data)
               })
               .catch((e) => {
                 console.log(e.response.data)
@@ -62,7 +62,8 @@ const ModalSelectWerehouse: React.FC<props> = ({ onChange, modalChange, setAlmoD
     if (textSearch !== '') {
       setList(
         response.filter(item => {
-          if (item.ALMO_DESC.indexOf(textSearch) > -1) {
+          const desc = item.ALMO_DESC.toLowerCase()
+          if (desc.indexOf(textSearch.toLowerCase()) > -1) {
             return true
           }
           return false

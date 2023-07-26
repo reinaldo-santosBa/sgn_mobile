@@ -1,5 +1,5 @@
 import { TouchableOpacity, Text, View, Modal, BackHandler } from 'react-native'
-import React, { useState, useContext, useEffect, useRef, SetStateAction } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import styles from './styles'
 import changeReal from '../../../utils/chanceReal'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
@@ -21,9 +21,9 @@ interface props {
       VALOR_TOTAL_ITEM: string;
       PEDI_FORN_COD: string;
       PEDI_NUMERO: string;
+      EMPR_NOME: string;
     }
   },
-  responseFunc: React.Dispatch<SetStateAction<[]>>
 }
 
 interface IarrayPedido {
@@ -34,9 +34,9 @@ interface IarrayPedido {
   pediNumero: string
 }
 
-const CardPedido: React.FC<props> = ({ datas, responseFunc }: props) => {
+const CardPedido: React.FC<props> = ({ datas }: props) => {
   const navigation = useNavigation<FullNavigationProp>()
-  const { arrayPedido, setArrayPedido, bgState } = useContext(AuthContext)
+  const { arrayPedido, setArrayPedido, bgState, setAtt, att } = useContext(AuthContext)
   const [modalPassword, setModalPassword] = useState(false)
   const [bgColor, setBgColor] = useState('#FFFFFF')
   const swipeableRef = useRef(null)
@@ -102,7 +102,7 @@ const CardPedido: React.FC<props> = ({ datas, responseFunc }: props) => {
         VALOR_TOTAL_ITEM: datas.item.VALOR_TOTAL_ITEM,
         PEDI_FORN_COD: datas.item.PEDI_FORN_COD,
         PEDI_NUMERO: datas.item.PEDI_NUMERO,
-        responseFunc
+        EMPR_NOME: datas.item.EMPR_NOME
       })
     } else {
       if (bgColor === '#FFFFFF') {
@@ -201,7 +201,7 @@ const CardPedido: React.FC<props> = ({ datas, responseFunc }: props) => {
 
           <View style={styles.cardTextArea}>
             <Text style={styles.cardTextTitle}>Valor : </Text>
-            <Text style={styles.cardTextBody}>{changeReal(valorTotal)}</Text>
+            <Text style={styles.cardTextBody}>{changeReal(Number(valorTotal))}</Text>
           </View>
 
           <View style={styles.cardTextArea}>
@@ -226,7 +226,7 @@ const CardPedido: React.FC<props> = ({ datas, responseFunc }: props) => {
             posAss={assPos}
             cod={cod}
             responseFunc={() => {
-              responseFunc([])
+              setAtt(!att)
             }}
             fornCod={datas.item.PEDI_FORN_COD}
             valTotal={valorTotal}

@@ -14,7 +14,7 @@ interface props {
 
 interface IarraySoco {
   valorTotal: string,
-  posAss: string,
+  pos: string,
   socoCod: string,
 }
 
@@ -70,7 +70,7 @@ export const CardSoliCompra: React.FC<props> = ({ datas, navigation }: props) =>
       //     [...arraySoliCompra, [datas.item.SOCO_COD, ass, datas.item.SOCO_NUMERO, valorTotal]])
       setArraySoliCompra((arraySoliCompra: IarraySoco[]) => [...arraySoliCompra, {
         socoCod: datas.item.SOCO_COD,
-        posAss: ass,
+        pos: ass,
         valorTotal
       }])
     } else {
@@ -118,7 +118,7 @@ export const CardSoliCompra: React.FC<props> = ({ datas, navigation }: props) =>
         setBgColor('#aaaaaa')
         setArraySoliCompra((arraySoliCompra: IarraySoco[]) => [...arraySoliCompra, {
           socoCod: datas.item.SOCO_COD,
-          posAss: ass,
+          pos: ass,
           valorTotal
         }])
       } else {

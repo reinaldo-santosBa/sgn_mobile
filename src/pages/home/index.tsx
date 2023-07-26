@@ -23,7 +23,8 @@ Notifications.setNotificationHandler({
 const Home: React.FC = () => {
   const {
     version,
-    url
+    url,
+    refreshToken
   } = useContext(AuthContext)
   type FullNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -45,7 +46,13 @@ const Home: React.FC = () => {
           axios.patch(`${url}${version}/usuario/setTokenApp`, {
             USUA_SIGLA: user,
             USUA_APP_TOKEN: tokenExpo
-          })
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${refreshToken}`
+            }
+          }
+          )
             .then(() => {
               console.log('====================================')
               console.log(tokenExpo)

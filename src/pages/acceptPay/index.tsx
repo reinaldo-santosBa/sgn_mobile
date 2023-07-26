@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import MenuConainer from '../../components/menu/menuContainerPagar'
 import Container from '../../components/container'
 import { AuthContext } from '../../contexts/contextApi'
-import { api } from '../../services/axios'
 import TextWithoutData from '../../components/input/textWithoutData'
 import BtnFilter from '../../components/buttons/btnFilter'
 import BtnEmMassa from '../../components/buttons/btnPedidoMassa'
@@ -14,6 +13,8 @@ import { useNavigation } from '@react-navigation/native'
 import { FullNavigationProp } from '../comprasHome'
 import ModalSelectSupplier from '../../components/modais/modalSupplier'
 import ModalFilter from '../../components/modais/modalFilter'
+import axios from 'axios'
+import ModalSelectCrFilter from '../../components/modais/modalCRSelect'
 
 const AcceptPay: React.FC = () => {
   const [loading, setLoading] = useState(false)
@@ -24,7 +25,9 @@ const AcceptPay: React.FC = () => {
     bgState,
     setBgState,
     arrayPagar,
-    setArrayPagar
+    setArrayPagar,
+    url,
+    version
   } = useContext(AuthContext)
   const [modal, setModal] = useState(false)
   const [modalFilter, setModalFilter] = useState(false)
@@ -37,14 +40,35 @@ const AcceptPay: React.FC = () => {
   const [modalSupplier, setModalSupplier] = useState(false)
   const [supplierCod, setSupplierCod] = useState('')
   const [supplierDesc, setSupplierDesc] = useState('Escolha o fornecedor')
+  const [modalCr, setModalCr] = useState(false)
+  const [crCod, setCrCod] = useState('')
+  const [crDesc, setCrDesc] = useState('Escolha o cr')
   const [numDoc, setNumDoc] = useState('')
   const [inputNum, setInputNum] = useState('')
+  const [dtFormatadaRequestEnd, setDtFormatadaRequestEnd] = useState('')
+  const [dtFormatadaEnd, setDtFormatadaEnd] = useState('Escolha uma data final')
+  const [dtFormatadaRequestIni, setDtFormatadaRequestIni] = useState('')
+  const [dtFormatadaIni, setDtFormatadaIni] = useState('Escolha uma data inicial')
+  const resetFilter = () => {
+    setLoading(true)
+    setModalFilter(!modalFilter)
+    setSupplierCod('')
+    setSupplierDesc('Escolha o fornecedor')
+    setInputNum('')
+    setNumDoc('')
+    setCrDesc('Escolha o cr')
+    setCrCod('')
+    setDtFormatadaRequestEnd('')
+    setDtFormatadaEnd('Escolha uma data final')
+    setDtFormatadaRequestIni('')
+    setDtFormatadaIni('Escolha uma data')
+  }
   useEffect(() => {
     setLoading(false)
-    api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+    axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
       .then((json) => {
         const acessToken = json.data.acessToken
-        api.get('pagar', { headers: { Authorization: `Bearer ${acessToken}` } })
+        axios.get(`${url}${version}/pagar`, { headers: { Authorization: `Bearer ${acessToken}` } })
           .then((json) => {
             setResponse(json.data)
             setLoading(true)
@@ -79,10 +103,10 @@ const AcceptPay: React.FC = () => {
   const search = () => {
     setLoading(false)
     if (supplierCod !== '') {
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get('pagar/fornecedor/' + supplierCod, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/pagar/fornecedor/` + supplierCod, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
               console.log('====================================')
@@ -112,10 +136,40 @@ const AcceptPay: React.FC = () => {
           setModalAlert(!modalAlert)
         })
     } else if (numDoc !== '') {
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get('pagar/numeroDoc/' + numDoc, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/pagar/numeroDoc/` + numDoc, { headers: { Authorization: `Bearer ${acessToken}` } })
+            .then((json) => {
+              setResponse(json.data)
+            })
+            .catch((error) => {
+              if (error.response) {
+                setArrayPagar([])
+                setMessage([error.response.data])
+                setErr(true)
+                setModal(!modal)
+              } else if (error.request) {
+                setArrayPagar([])
+                setMessage([error.request.data])
+                setErr(true)
+                setModal(!modal)
+              } else {
+                setArrayPagar([])
+                setMessage([error.data.message])
+                setErr(true)
+                setModal(!modal)
+              }
+            })
+        })
+        .catch(() => {
+          setModalAlert(!modalAlert)
+        })
+    } else if (inputNum !== '') {
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
+        .then((json) => {
+          const acessToken = json.data.acessToken
+          axios.get(`${url}${version}/pagar/numero/` + inputNum, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
               console.log('====================================')
@@ -144,11 +198,11 @@ const AcceptPay: React.FC = () => {
         .catch(() => {
           setModalAlert(!modalAlert)
         })
-    } else if (inputNum !== '') {
-      api.get('usuario/acessToken', { headers: { Authorization: `Bearer ${refreshToken}` } })
+    } else if (crCod !== '') {
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
         .then((json) => {
           const acessToken = json.data.acessToken
-          api.get('pagar/numero/' + inputNum, { headers: { Authorization: `Bearer ${acessToken}` } })
+          axios.get(`${url}${version}/pagar/cr/` + crCod, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
               console.log('====================================')
@@ -158,7 +212,48 @@ const AcceptPay: React.FC = () => {
             .catch((error) => {
               if (error.response) {
                 setArrayPagar([])
-                setMessage([error.response.data.message])
+                setMessage([error.response.data])
+                setErr(true)
+                setModal(!modal)
+              } else if (error.request) {
+                setArrayPagar([])
+                setMessage([error.request.data])
+                setErr(true)
+                setModal(!modal)
+              } else {
+                setArrayPagar([])
+                setMessage([error.data.message])
+                setErr(true)
+                setModal(!modal)
+              }
+            })
+        })
+        .catch(() => {
+          setModalAlert(!modalAlert)
+        })
+    } else if (dtFormatadaRequestEnd !== '' || dtFormatadaRequestIni !== '') {
+      if (dtFormatadaRequestIni === '') {
+        alert('preencha a data inicial')
+      } else if (dtFormatadaRequestEnd === '') {
+        alert('preencha a data final')
+      }
+      axios.get(`${url}${version}/usuario/acessToken`, { headers: { Authorization: `Bearer ${refreshToken}` } })
+        .then((json) => {
+          const acessToken = json.data.acessToken
+          axios.get(`${url}${version}/pagar/periodo/${dtFormatadaRequestIni}/${dtFormatadaRequestEnd}`, { headers: { Authorization: `Bearer ${acessToken}` } })
+            .then((json) => {
+              setResponse(json.data)
+              console.log('====================================')
+              console.log('certo')
+              console.log('====================================')
+            })
+            .catch((error) => {
+              console.log('====================================')
+              console.log(error)
+              console.log('====================================')
+              if (error.response) {
+                setArrayPagar([])
+                setMessage([error.response.data])
                 setErr(true)
                 setModal(!modal)
               } else if (error.request) {
@@ -178,12 +273,7 @@ const AcceptPay: React.FC = () => {
           setModalAlert(!modalAlert)
         })
     }
-    setLoading(true)
-    setModalFilter(!modalFilter)
-    setSupplierCod('')
-    setSupplierDesc('Escolha o fornecedor')
-    setInputNum('')
-    setNumDoc('')
+    resetFilter()
   }
 
   return (
@@ -313,6 +403,7 @@ const AcceptPay: React.FC = () => {
             }}
 
             func={() => {
+              resetFilter()
               return setModalFilter(!modalFilter)
             }}
 
@@ -320,14 +411,41 @@ const AcceptPay: React.FC = () => {
             setModalSupplier={setModalSupplier}
             modalSupplier={modalSupplier}
 
+            crDesc={crDesc}
+            setModalCr={setModalCr}
+            modalCr={modalCr}
+
             setInputCod={setNumDoc}
             inputCod={numDoc}
 
             setInputNum={setInputNum}
             inputNum={inputNum}
+
+            dtFormatadaIni={dtFormatadaIni}
+            setDtFormatadaIni={setDtFormatadaIni}
+            setDtFormatadaRequestIni={setDtFormatadaRequestIni}
+
+            dtFormatadaEnd={dtFormatadaEnd}
+            setDtFormatadaEnd={setDtFormatadaEnd}
+            setDtFormatadaRequestEnd={setDtFormatadaRequestEnd}
           />
         </Modal>
-
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalCr}
+        >
+          <ModalSelectCrFilter
+            onChange={setCrCod}
+            value={crCod}
+            modalChange={
+              () => {
+                setModalCr(!modalCr)
+              }
+            }
+            setCereDesc={setCrDesc}
+          />
+        </Modal>
       </Container>
     </MenuConainer>
   )
