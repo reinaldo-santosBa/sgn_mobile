@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { View, ScrollView } from 'react-native'
 import React from 'react'
 import styles from './styles'
@@ -12,7 +11,19 @@ export type HomeProps = NativeStackNavigationProp<
   RootStackParamList
 >;
 
-const ScrollViewMenu : React.FC = () => {
+interface IRespondeBd {
+  REEA_APLI_COD: number;
+}
+interface IRespondeBd2 {
+  USAM_APLIC_COD: number;
+}
+
+interface Iprops {
+  response: IRespondeBd[]
+  response2: IRespondeBd2[]
+}
+
+const ScrollViewMenu : React.FC<Iprops> = ({ response, response2 }) => {
   const navigation = useNavigation <HomeProps>()
 
   return (
@@ -34,11 +45,13 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={1}
+
             image={require('../../../assets/img/modulos_novos/gerencial.png')}
 
             text={'Gerencial'}
 
-            disabled={false}
+            response={response} response2={response2}
 
             onPress={() => {
               navigation.navigate('Gerencial')
@@ -48,9 +61,11 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={2}
+
             image={require('../../../assets/img/modulos_novos/pagar.png')}
 
-            disabled={false}
+            response={response} response2={response2}
 
             text={'Pagar'}
 
@@ -63,9 +78,11 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={3}
+
             image={require('../../../assets/img/modulos_novos/receber.png')}
 
-            disabled={true}
+            response={response} response2={response2}
 
             text={'Receber'}
 
@@ -78,10 +95,12 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={4}
+
             image={require('../../../assets/img/modulos_novos/bancario.png')}
 
             text={'Bancario'}
-            disabled={true}
+            response={response} response2={response2}
             onPress={() => {
               return 1
             }}
@@ -90,9 +109,11 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={7}
+
             image={require('../../../assets/img/modulos_novos/orcamento.png')}
 
-            disabled={true}
+            response={response} response2={response2}
 
             text={'Orçamento'}
 
@@ -105,7 +126,9 @@ const ScrollViewMenu : React.FC = () => {
 
             image={require('../../../assets/img/modulos_novos/fluxo_de_caixa.png')}
 
-            disabled={true}
+            number={13}
+
+            response={response} response2={response2}
 
             text={'Fluxo Caixa'}
 
@@ -120,9 +143,11 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={5}
+
             image={require('../../../assets/img/modulos_novos/imobiliario.png')}
 
-            disabled={true}
+            response={response} response2={response2}
 
             text={'Imobiliario'}
 
@@ -133,9 +158,11 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={6}
+
             image={require('../../../assets/img/modulos_novos/contrato-obra.png')}
 
-            disabled={true}
+            response={response} response2={response2}
 
             text={'Cont. obra'}
 
@@ -146,11 +173,13 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={8}
+
             image={require('../../../assets/img/modulos_novos/compras.png')}
 
             text={'Compras'}
 
-            disabled={false}
+            response={response} response2={response2}
 
             onPress={() => {
               navigation.navigate('ComprasHome')
@@ -164,7 +193,9 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
-            disabled={true}
+            number={11}
+
+            response={response} response2={response2}
 
             image={require('../../../assets/img/modulos_novos/estoque.png')}
 
@@ -178,9 +209,11 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={10}
+
             image={require('../../../assets/img/modulos_novos/locacao.png')}
 
-            disabled={true}
+            response={response} response2={response2}
 
             text={'Locação'}
 
@@ -191,9 +224,11 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={0}
+
             image={require('../../../assets/img/modulos_novos/comercial.png')}
 
-            disabled={true}
+            response={response} response2={response2}
 
             text={'Comercial'}
 
@@ -208,9 +243,11 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={9}
+
             image={require('../../../assets/img/modulos_novos/interface_contabil.png')}
 
-            disabled={true}
+            response={response} response2={response2}
 
             text={'Int. Contabil'}
 
@@ -221,9 +258,11 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={18}
+
             image={require('../../../assets/img/modulos_novos/pessoal.png')}
 
-            disabled={true}
+            response={response} response2={response2}
 
             text={'Pessoal'}
 
@@ -235,9 +274,11 @@ const ScrollViewMenu : React.FC = () => {
 
           <MenuButtons
 
+            number={14}
+
             image={require('../../../assets/img/modulos_novos/fiscal.png')}
 
-            disabled={true}
+            response={response} response2={response2}
 
             text={'Fiscal'}
 

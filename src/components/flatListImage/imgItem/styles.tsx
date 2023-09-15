@@ -28,13 +28,11 @@ const styles = StyleSheet.create({
   },
 
   text: {
-
     position: 'absolute',
-    color: '#fff',
     bottom: 20,
     left: 20,
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: '900'
 
   }
 

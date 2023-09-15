@@ -13,6 +13,7 @@ import { RootStackParamList } from '../../routes/fullScreen.routes'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as LocalAuthentication from 'expo-local-authentication'
 import * as Notifications from 'expo-notifications'
+import { CheckBox } from '../../components/checkBoxTerm'
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -34,6 +35,8 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
   const [err, setErr] = useState(false)
   const [att, setAtt] = useState('')
   const [linkAtt, setLinkAtt] = useState('')
+  const [termoAceito, setTermAceito] = useState(false)
+  const [nameIcon, setNameIcon] = useState(false)
 
   const log = 0
   const {
@@ -43,19 +46,30 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
     version,
     versionApp,
     linkSGN,
-    refreshToken
+    refreshToken,
+    setCNPJ
   } = useContext(AuthContext)
   const storeData = async (cnpj:string, user:string, password: string) => {
     try {
       await AsyncStorage.setItem('CNPJ', cnpj)
       await AsyncStorage.setItem('user', user)
       await AsyncStorage.setItem('password', password)
+      await AsyncStorage.setItem('termAccept', 'true')
     } catch (e) {
       alert('Error ' + e)
     }
   }
-  const login = async (usuaSenha, cnpjLogin, usuaSigla) => {
+  const login = async (usuaSenha, cnpjLogin, usuaSigla, termAceito) => {
     setLoading(true)
+    if (!termAceito) {
+      if (!nameIcon) {
+        setErr(true)
+        setMessage(['Aceito o termo'])
+        setModal(!modal)
+        setLoading(false)
+        return
+      }
+    }
     if (usuaSigla === '' || usuaSenha === '' || cnpjLogin === '') {
       setErr(true)
       setMessage(['Preencha todos os campos'])
@@ -69,18 +83,16 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
       url: `${linkSGN}/${version}/dataConnection/${cnpjLogin}`
     })
       .then((resp) => {
-        console.log('====================================')
-        console.log(1)
-        console.log('====================================')
         setUrl(resp.data.message.DACO_URL)
         setDataBase(resp.data.message.DACO_DATABASE)
+        setCNPJ(cnpj)
         axios.post(`${resp.data.message.DACO_URL}${version}/usuario/login`,
           {
 
             USUA_SIGLA: usuaSigla,
             USUA_SENHA_APP: usuaSenha,
-            DATABASE: resp.data.message.DACO_DATABASE
-
+            DATABASE: resp.data.message.DACO_DATABASE,
+            CNPJ: cnpjLogin
           }
         )
           .then(
@@ -94,9 +106,6 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
 
           )
           .catch((error) => {
-            console.log('====================================')
-            console.log(error.response.data)
-            console.log('====================================')
             setPassword('')
             setLoading(false)
             if (error.response) {
@@ -115,9 +124,6 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
           })
       })
       .catch((error) => {
-        console.log('=1===================================')
-        console.log(error)
-        console.log('====================================')
         setLoading(false)
         if (error.response) {
           setErr(true)
@@ -152,6 +158,23 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
     return true
   }
 
+  const termVerification = async () => {
+    const termAccept = await AsyncStorage.getItem('termAccept')
+    if (termAccept === 'true') {
+      setTermAceito(true)
+    } else {
+      setTermAceito(false)
+    }
+  }
+
+  useEffect(() => {
+    (
+      async () => {
+        await termVerification()
+      }
+    )()
+  }, [])
+
   const getData = async () => {
     try {
       const valueCNPJ = await AsyncStorage.getItem('CNPJ')
@@ -173,7 +196,8 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
       const compatible = await LocalAuthentication.hasHardwareAsync()
 
       const savedBiometrics = await LocalAuthentication.isEnrolledAsync()
-
+      const termAccept = await AsyncStorage.getItem('termAccept')
+      const termoAceite = (termAccept === 'true')
       const valuePassword = await AsyncStorage.getItem('password')
       const valueCNPJ = await AsyncStorage.getItem('CNPJ')
       const valueUSER = await AsyncStorage.getItem('user')
@@ -186,7 +210,7 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
             })
 
             if (validAuth.success) {
-              login(valuePassword, valueCNPJ, valueUSER)
+              login(valuePassword, valueCNPJ, valueUSER, termoAceite)
             } else {
               try {
                 await AsyncStorage.setItem('password', '')
@@ -215,7 +239,7 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
       method: 'get',
       url: `${linkSGN}/${version}/atualizacao/${platform}/${versionApp}`
     })
-      .then((resp) => {
+      .then(async (resp) => {
         setLinkAtt(resp.data.link)
         setAtt(resp.data.message)
         if (resp.data.message === 'desatualizado') {
@@ -283,10 +307,19 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
 
       />
 
+      {
+        !termoAceito
+          ? <CheckBox
+              nameIcon={nameIcon}
+              setNameIcon={setNameIcon}
+            />
+          : <></>
+      }
+
       <Button
 
         functionOnpress={() => {
-          login(password, cnpj, user)
+          login(password, cnpj, user, termoAceito)
         }}
        textButton={'LOGIN'}
 

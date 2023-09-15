@@ -107,15 +107,15 @@ const DetalheCrDados: React.FC = ({ route }: propsRoute) => {
           </S.TextTittleCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Aberto: </S.TextTittleContentCard>
-            {changeReal(abertoDespesa)}
+            {changeReal(Number(abertoDespesa))}
           </S.TextContentCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Baixado: </S.TextTittleContentCard>
-            {changeReal(baixadoDespesa)}
+            {changeReal(Number(baixadoDespesa))}
           </S.TextContentCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Total: </S.TextTittleContentCard>
-            {changeReal(totalDespesa)}
+            {changeReal(Number(totalDespesa))}
           </S.TextContentCard>
           <VictoryChart
             theme={VictoryTheme.material}
@@ -132,15 +132,15 @@ const DetalheCrDados: React.FC = ({ route }: propsRoute) => {
           </S.TextTittleCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Aberto: </S.TextTittleContentCard>
-            {changeReal(abertoReceita)}
+            {changeReal(Number(abertoReceita))}
           </S.TextContentCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Baixado: </S.TextTittleContentCard>
-            {changeReal(baixadoReceita)}
+            {changeReal(Number(baixadoReceita))}
           </S.TextContentCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Total: </S.TextTittleContentCard>
-            {changeReal(totalReceita)}
+            {changeReal(Number(totalReceita))}
           </S.TextContentCard>
           <VictoryChart
             theme={VictoryTheme.material}
@@ -157,15 +157,15 @@ const DetalheCrDados: React.FC = ({ route }: propsRoute) => {
           </S.TextTittleCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Aberto: </S.TextTittleContentCard>
-            {changeReal(aberto)}
+            {changeReal(Number(aberto))}
           </S.TextContentCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Baixado: </S.TextTittleContentCard>
-            {changeReal(baixado)}
+            {changeReal(Number(baixado))}
           </S.TextContentCard>
           <S.TextContentCard>
             <S.TextTittleContentCard>Total: </S.TextTittleContentCard>
-            {changeReal(total)}
+            {changeReal(Number(total))}
           </S.TextContentCard>
           <VictoryChart
             theme={VictoryTheme.material}

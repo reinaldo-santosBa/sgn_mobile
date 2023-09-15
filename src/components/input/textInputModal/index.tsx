@@ -24,6 +24,7 @@ const InputModal: React.FC<props> = ({ placeholder, onChange, value }) => {
             >
 
               <TextInput
+
                   placeholder={placeholder}
                   style={styles.input}
                   onChangeText={onChange}

@@ -8,6 +8,7 @@ import { FullNavigationProp } from '../../menu/menuContainerCompras'
 import { useNavigation } from '@react-navigation/native'
 import ModalAlert from '../modalAlert'
 import InputModal from '../../input/textInputModal'
+import BtnExit from '../../buttons/btnExit'
 
 interface props{
   setNomePlgcCod: (text: string, plgcCod: string, codCr: string) => undefined;
@@ -75,6 +76,14 @@ const ModalSelectCr: React.FC<props> = ({ setNomePlgcCod, modalChange }) => {
       <S.AreaContent
         style={{ elevation: 5 }}
       >
+        <BtnExit
+          marginT={-50}
+          func={
+            () => {
+              modalChange()
+            }
+          }
+        />
         {
           !loading
             ? <ActivityIndicator color={'#000'} size={'large'} />

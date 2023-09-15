@@ -77,6 +77,10 @@ interface IAuthContext {
   setToken: React.Dispatch<SetStateAction<string>>;
   arrayPagar: Array<IarrayPagar>;
   setArrayPagar: React.Dispatch<SetStateAction<IarrayPagar[]>>;
+  setCNPJ: React.Dispatch<SetStateAction<string>>;
+  cnpj: string;
+  setTermoAccept: React.Dispatch<SetStateAction<string>>;
+  termoAccept: string;
 }
 
 interface IProvider {
@@ -103,9 +107,11 @@ export const AuthContextProvider : React.FC<IProvider> = ({ children }) => {
   const [token, setToken] = useState('')
   const [arrayPurchaseWorksheet, setArrayPurchaseWorksheet] = useState([])
   const [arrayPagar, setArrayPagar] = useState([])
+  const [cnpj, setCNPJ] = useState('')
+  const [termoAccept, setTermoAccept] = useState('')
+  const linkSGN = 'http://129.148.50.73:9005'
 
-  // const linkSGN = 'http://129.148.50.73:9005'
-  const linkSGN = 'http://192.168.101.18:9005'
+  // const linkSGN = 'http://192.168.101.18:9005'
   return (
 
     <AuthContext.Provider
@@ -150,7 +156,11 @@ export const AuthContextProvider : React.FC<IProvider> = ({ children }) => {
               arrayPurchaseWorksheet,
               setArrayPurchaseWorksheet,
               arrayPagar,
-              setArrayPagar
+              setArrayPagar,
+              cnpj,
+              setCNPJ,
+              termoAccept,
+              setTermoAccept
             }
 
         }

@@ -1,26 +1,51 @@
-import { TouchableOpacity, Text, Image, View, ImageSourcePropType } from 'react-native'
-import React from 'react'
+import { TouchableOpacity, Text, Image, ImageSourcePropType, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import styles from './styles'
+
+interface IRespondeBd {
+  REEA_APLI_COD: number;
+}
+
+interface IRespondeBd2 {
+  USAM_APLIC_COD: number;
+}
 
 interface Ibtn {
   image: ImageSourcePropType;
   text: string;
   onPress: ()=>void;
-  disabled: boolean;
+  number: number;
+  response: IRespondeBd[];
+  response2: IRespondeBd2[]
 }
 
-const MenuButton: React.FC<Ibtn> = ({ image, text, onPress, disabled }: Ibtn) => {
+const MenuButton: React.FC<Ibtn> = ({ number, image, text, onPress, response, response2 }: Ibtn) => {
+  const [disabled, setDisabled] = useState(true)
+  useEffect(() => {
+    response.forEach((element1: IRespondeBd) => {
+      response2.forEach((element2: IRespondeBd2) => {
+        if (Number(element1.REEA_APLI_COD) === number && Number(element2.USAM_APLIC_COD) === Number(element1.REEA_APLI_COD)) {
+          setDisabled(false)
+        }
+      })
+    })
+  })
+
   return (
+
     <TouchableOpacity style={styles.areaBtn}
       onPress={() => {
-        onPress()
+        if (disabled === true) {
+          return ''
+        }
+        return onPress()
       }}
     >
 
       {disabled === true
 
         ? <View style={{
-          backgroundColor: '#12121255',
+          backgroundColor: '#00000099',
           width: '100%',
           height: '100%',
           position: 'absolute',

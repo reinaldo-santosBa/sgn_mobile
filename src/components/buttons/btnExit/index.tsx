@@ -4,13 +4,17 @@ import styles from './styles'
 import Icon from 'react-native-vector-icons/Feather'
 
 interface iProps{
-    func:()=>void
+    func:()=>void;
+    marginT?: number;
 }
 
-const BtnExit : React.FC<iProps> = ({ func }) => {
+const BtnExit : React.FC<iProps> = ({ func, marginT }) => {
+  if (!marginT) {
+    marginT = 0
+  }
   return (
     <TouchableOpacity
-        style={styles.areaIcon}
+        style={[styles.areaIcon, { top: marginT }]}
         onPress={() => {
           func()
         }}
