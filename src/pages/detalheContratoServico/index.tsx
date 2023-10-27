@@ -71,9 +71,6 @@ const DetalheContratoServico: React.FC = ({ route }: params) => {
           const acessToken = json.data.acessToken
           axios.get(`${url}${version}/contratoServico/detalhes/${cocsCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((response) => {
-              console.log('====================================')
-              console.log(response.data)
-              console.log('====================================')
               setData(response.data)
               setLoading(true)
             })

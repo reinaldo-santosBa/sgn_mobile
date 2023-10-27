@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Container from '../../components/container'
-import { FlatList } from 'react-native-gesture-handler'
-import { ActivityIndicator, BackHandler, Modal } from 'react-native'
+import { ActivityIndicator, BackHandler, Modal, FlatList } from 'react-native'
 import { AuthContext } from '../../contexts/contextApi'
 import CardAgenda from '../../components/cards/cardAgenda'
 import { useNavigation } from '@react-navigation/native'

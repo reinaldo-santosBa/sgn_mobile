@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Modal } from 'react-native'
+import { ActivityIndicator, BackHandler, FlatList, Modal } from 'react-native'
 import React, { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '../../contexts/contextApi'
 import Container from '../../components/container'
@@ -70,9 +70,6 @@ const Pedidos: React.FC<FullNavigationProp> = () => {
           axios.get(`${url}${version}/pedido/forn/${supplierDesc}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
-              console.log('====================================')
-              console.log(json.data)
-              console.log('====================================')
             })
             .catch((error) => {
               setLoading(false)
@@ -187,6 +184,18 @@ const Pedidos: React.FC<FullNavigationProp> = () => {
         setModalAlert(!modalAlert)
       })
   }, [att])
+
+  const backAction = () => {
+    navigation.navigate('ComprasHome')
+    return true
+  }
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', backAction)
+
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', backAction)
+  }, [])
 
   return (
     <MenuConainer>

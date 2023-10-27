@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TouchableOpacity, Text, View, BackHandler, Modal } from 'react-native'
-import React, { useState, useContext, useEffect, useRef } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import styles from './styles'
 import changeReal from '../../../utils/chanceReal'
-import Swipeable from 'react-native-gesture-handler/Swipeable'
 import { AuthContext } from '../../../contexts/contextApi'
 import ModalPasswordSoliCompra from '../../modais/modalPasswordSoliCompra'
 
@@ -22,7 +21,6 @@ export const CardSoliCompra: React.FC<props> = ({ datas, navigation }: props) =>
   const { bgState, setArraySoliCompra, arraySoliCompra } = useContext(AuthContext)
   const [modalPassword, setModalPassword] = useState(false)
   const [bgColor, setBgColor] = useState('#FFFFFF')
-  const swipeableRef = useRef(null)
 
   const ass = datas.item.ASS
   const cr = datas.item.CERE_NOME
@@ -47,10 +45,6 @@ export const CardSoliCompra: React.FC<props> = ({ datas, navigation }: props) =>
   cr.length > 18 ? crFormated = cr.slice(0, 18) + '...' : crFormated = cr
 
   const valorTotal = datas.item.valor_total
-
-  const handleLeft = () => {
-    setModalPassword(!modalPassword)
-  }
 
   const backAction = () => {
     setBgColor('#FFFFFF')
@@ -92,24 +86,6 @@ export const CardSoliCompra: React.FC<props> = ({ datas, navigation }: props) =>
       BackHandler.removeEventListener('hardwareBackPress', backAction)
   }, [])
 
-  const leftAction = () => {
-    return (
-      <View
-        style={styles.buttonAprovar}
-      >
-
-        <Text
-          style={[styles.textBtn]}
-        >
-
-          Solicitação aprovada
-
-        </Text>
-
-      </View>
-    )
-  }
-
   const handleClick = () => {
     if (arraySoliCompra.length === 0) {
       navigation.navigate('DetalheSolicitacao', { dados: datas.item })
@@ -133,18 +109,9 @@ export const CardSoliCompra: React.FC<props> = ({ datas, navigation }: props) =>
       }
     }
   }
-  const closeSwipeable = () => {
-    swipeableRef.current.close()
-  }
-
   return (
 
-    <Swipeable
-      ref={swipeableRef}
-      renderLeftActions={leftAction}
-      onSwipeableLeftOpen={handleLeft}
-
-    >
+    <View>
       <TouchableOpacity
 
         style={[styles.card, {
@@ -189,13 +156,12 @@ export const CardSoliCompra: React.FC<props> = ({ datas, navigation }: props) =>
         <ModalPasswordSoliCompra
           func={() => {
             setModalPassword(!modalPassword)
-            closeSwipeable()
           }}
           posAss={ass}
           cod={datas.item.SOCO_COD}
           valor={datas.item.valor_total}
         />
       </Modal>
-    </Swipeable>
+    </View>
   )
 }

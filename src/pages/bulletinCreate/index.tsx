@@ -111,11 +111,7 @@ const BulletinCreate: React.FC = () => {
           <S.AreaBtns>
             <S.ButtonPrevProx
               bg={bgPrevColor}
-              onPress={() => {
-                console.log('====================================')
-                console.log(1)
-                console.log('====================================')
-              }}
+              onPress={null}
             >
               <S.TextIcon>
                 Voltar
@@ -123,11 +119,7 @@ const BulletinCreate: React.FC = () => {
             </S.ButtonPrevProx>
             <S.ButtonPrevProx
               bg={'#1BAF64'}
-              onPress={() => {
-                console.log('====================================')
-                console.log(1)
-                console.log('====================================')
-              }}
+              onPress={null}
             >
               <S.TextIcon>
                 {textButtonProx}

@@ -30,7 +30,7 @@ const Home: React.FC = () => {
   } = useContext(AuthContext)
   type FullNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
-    'MovDiaria'
+    'Home'
   >;
   const [att] = useState(false)
   const [err, setErr] = useState(false)
@@ -58,7 +58,10 @@ const Home: React.FC = () => {
           })
           .then((json) => {
             setResponse(json.data)
-
+            console.log('1 ====================================')
+            console.log(`${url}${version}/usuario/modulo/${cnpj}`)
+            console.log(json.data)
+            console.log('====================================')
             setLoading(true)
           })
           .catch((error) => {
@@ -95,6 +98,10 @@ const Home: React.FC = () => {
             }
           })
           .then((json) => {
+            console.log('2 ====================================')
+            console.log(`${url}${version}/usuario/modulo`)
+            console.log(json.data)
+            console.log('====================================')
             setResponse2(json.data)
             setLoading(true)
           })

@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Container from '../../components/container'
-import { FlatList } from 'react-native-gesture-handler'
 import { AuthContext } from '../../contexts/contextApi'
-import { ActivityIndicator, Modal } from 'react-native'
+import { ActivityIndicator, FlatList, Modal } from 'react-native'
 import BtnEmMassa from '../../components/buttons/btnPedidoMassa'
 import BtnFilter from '../../components/buttons/btnFilter'
 import ModalAlert from '../../components/modais/modalAlert'
@@ -190,9 +189,6 @@ const ServiceContractBulletin: React.FC = () => {
           const acessToken = json.data.acessToken
           axios.get(`${url}${version}/boletimServico/fornecedor/${supplierCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
-              console.log('====================================')
-              console.log(json.data)
-              console.log('====================================')
               setResponse(json.data)
             })
             .catch((error) => {
@@ -224,9 +220,6 @@ const ServiceContractBulletin: React.FC = () => {
           const acessToken = json.data.acessToken
           axios.get(`${url}${version}/boletimServico/cr/${crCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
-              console.log('====================================')
-              console.log(json.data)
-              console.log('====================================')
               setResponse(json.data)
             })
             .catch((error) => {

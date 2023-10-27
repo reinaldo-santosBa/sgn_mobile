@@ -41,15 +41,12 @@ const ModalPasswordLargScale: React.FC<props> = ({ func, mudarCor, refresh }) =>
           USUA_SENHA_APP: password,
           arrayPedido
         }
-        console.log(bodyParameters)
 
         axios.patch(
           `${url}${version}/pedido/largeScale`,
           bodyParameters,
           config
         ).then((json) => {
-          console.log(bodyParameters)
-
           setArrayPedido([])
           setErr(false)
           setMessage(json.data.message)

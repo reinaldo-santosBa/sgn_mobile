@@ -51,9 +51,6 @@ const DetalheCrMain: React.FC = () => {
         )
           .then(async (resp) => {
             setLoading(true)
-            console.log('====================================')
-            console.log(resp.data)
-            console.log('====================================')
             navigation.navigate('DetalheCrDados', {
               dtFormatadaIni,
               dtFormatadaFim,
@@ -76,9 +73,6 @@ const DetalheCrMain: React.FC = () => {
           })
           .catch((e) => {
             setLoading(true)
-            console.log('====================================')
-            console.log(e)
-            console.log('====================================')
           })
       })
       .catch(

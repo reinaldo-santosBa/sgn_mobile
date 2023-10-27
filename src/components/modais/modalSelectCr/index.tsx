@@ -44,7 +44,7 @@ const ModalSelectCr: React.FC<props> = ({ setNomePlgcCod, modalChange }) => {
                 setList(resp.data)
               })
               .catch((e) => {
-                console.log(e.response.data)
+                alert(e.response.data)
               })
           })
           .catch(() => {

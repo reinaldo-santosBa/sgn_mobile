@@ -90,11 +90,7 @@ const CardAgenda: React.FC<Iprops> = ({ TELEFONE, EMAIL, ENDERECO, CIDADE, UF, N
       }]
     }
 
-    Contacts.openContactForm(newPerson).then(contact => {
-      console.log('====================================')
-      console.log(contact)
-      console.log('====================================')
-    })
+    Contacts.openContactForm(newPerson)
   }
 
   return (

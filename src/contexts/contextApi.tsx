@@ -39,14 +39,14 @@ interface IarrayPagar {
 }
 
 interface IAuthContext {
-  id:string,
-  refreshToken:string,
+  id: string,
+  refreshToken: string,
   setRefreshToken: React.Dispatch<SetStateAction<string>>,
-  modal:boolean,
+  modal: boolean,
   setModal: React.Dispatch<SetStateAction<boolean>>,
-  login:string,
+  login: string,
   setLogin: React.Dispatch<SetStateAction<string>>,
-  usuaCod:string,
+  usuaCod: string,
   setUsuaCod: React.Dispatch<SetStateAction<string>>,
   arrayPedido: Array<IarrayPedido>,
   setArrayPedido: React.Dispatch<SetStateAction<IarrayPedido[]>>;
@@ -84,12 +84,12 @@ interface IAuthContext {
 }
 
 interface IProvider {
-  children:React.ReactNode
+  children: React.ReactNode
 }
 
 export const AuthContext = createContext<IAuthContext>({} as IAuthContext)
 
-export const AuthContextProvider : React.FC<IProvider> = ({ children }) => {
+export const AuthContextProvider: React.FC<IProvider> = ({ children }) => {
   const [modal, setModal] = useState(false)
   const [login, setLogin] = useState('')
   const [usuaCod, setUsuaCod] = useState('')
@@ -110,65 +110,62 @@ export const AuthContextProvider : React.FC<IProvider> = ({ children }) => {
   const [cnpj, setCNPJ] = useState('')
   const [termoAccept, setTermoAccept] = useState('')
   const linkSGN = 'http://129.148.50.73:9005'
+  // const linkSGN = 'http://192.168.100.5:9005'
 
   // const linkSGN = 'http://192.168.101.18:9005'
   return (
 
     <AuthContext.Provider
 
-        value={
+      value={
 
-            {
-              id: '',
-              refreshToken,
-              setRefreshToken,
-              modal,
-              setModal,
-              login,
-              setLogin,
-              usuaCod,
-              setUsuaCod,
-              arrayPedido,
-              setArrayPedido,
-              modalPasswordLarge,
-              setModalPasswordLarge,
-              bgState,
-              setBgState,
-              arraySoliCompra,
-              setArraySoliCompra,
-              arrayContratoServico,
-              setArrayContratoServico,
-              attResponse,
-              setAttResponse,
-              arrayContratoServicoBulletin,
-              setArrayContratoServicoBulletin,
-              dataBase,
-              setDataBase,
-              url,
-              setUrl,
-              version: 'v1',
-              versionApp: '22',
-              linkSGN,
-              setAtt,
-              att,
-              token,
-              setToken,
-              arrayPurchaseWorksheet,
-              setArrayPurchaseWorksheet,
-              arrayPagar,
-              setArrayPagar,
-              cnpj,
-              setCNPJ,
-              termoAccept,
-              setTermoAccept
-            }
-
+        {
+          id: '',
+          refreshToken,
+          setRefreshToken,
+          modal,
+          setModal,
+          login,
+          setLogin,
+          usuaCod,
+          setUsuaCod,
+          arrayPedido,
+          setArrayPedido,
+          modalPasswordLarge,
+          setModalPasswordLarge,
+          bgState,
+          setBgState,
+          arraySoliCompra,
+          setArraySoliCompra,
+          arrayContratoServico,
+          setArrayContratoServico,
+          attResponse,
+          setAttResponse,
+          arrayContratoServicoBulletin,
+          setArrayContratoServicoBulletin,
+          dataBase,
+          setDataBase,
+          url,
+          setUrl,
+          version: 'v1',
+          versionApp: '25',
+          linkSGN,
+          setAtt,
+          att,
+          token,
+          setToken,
+          arrayPurchaseWorksheet,
+          setArrayPurchaseWorksheet,
+          arrayPagar,
+          setArrayPagar,
+          cnpj,
+          setCNPJ,
+          termoAccept,
+          setTermoAccept
         }
-
+      }
     >
-
       {children}
-
     </AuthContext.Provider>
   )
 }

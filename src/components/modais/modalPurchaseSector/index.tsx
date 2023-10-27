@@ -47,7 +47,7 @@ const ModalSelectPurchaseSector: React.FC<props> = ({ onChange, modalChange, set
                 setList(resp.data.message)
               })
               .catch((e) => {
-                console.log(e.response.data)
+                alert(e.response.data)
               })
           })
           .catch(() => {

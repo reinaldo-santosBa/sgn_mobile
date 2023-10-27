@@ -60,9 +60,6 @@ const ModalPasswordContratoServicoBulletin: React.FC<props> = ({ func }) => {
         })
           .catch(
             (error) => {
-              console.log('====================================')
-              console.log(error.response)
-              console.log('====================================')
               if (error.response) {
                 setArrayContratoServicoBulletin([])
                 setMessage(error.response.data.message)

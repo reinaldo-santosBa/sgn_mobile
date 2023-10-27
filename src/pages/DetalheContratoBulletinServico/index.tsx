@@ -79,9 +79,6 @@ const DetalheContratoBulletinServico: React.FC<propsRoute> = ({ route }) => {
           const acessToken = json.data.acessToken
           axios.get(`${url}${version}/boletimServico/${cocsCod}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((response) => {
-              console.log('====================================')
-              console.log(response)
-              console.log('====================================')
               setData(response.data)
               setLoading(true)
             })

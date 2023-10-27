@@ -50,7 +50,7 @@ const ModalSelectMaterial: React.FC<props> = ({ onChange, modalChange, setmateDe
                   setList(resp.data.message)
                 })
                 .catch((e) => {
-                  console.log(e.response.data)
+                  alert(e.response.data)
                 })
             })
             .catch(() => {
@@ -71,7 +71,7 @@ const ModalSelectMaterial: React.FC<props> = ({ onChange, modalChange, setmateDe
                   setList(resp.data)
                 })
                 .catch((e) => {
-                  console.log(e.response.data)
+                  alert(e.response.data)
                 })
             })
             .catch(() => {

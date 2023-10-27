@@ -44,9 +44,6 @@ const MovDiaria: React.FC = () => {
         const acessToken = json.data.acessToken
         axios.get(`${url}${version}/dailyMoviment`, { headers: { Authorization: `Bearer ${acessToken}` } })
           .then((json) => {
-            console.log('====================================')
-            console.log(json.data)
-            console.log('====================================')
             setResponse(json.data)
             setLoading(false)
           })

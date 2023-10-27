@@ -1,9 +1,7 @@
 import { TouchableOpacity, Text, View, Modal, BackHandler } from 'react-native'
-import React, { useState, useContext, useEffect, useRef } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import styles from './styles'
 import changeReal from '../../../utils/chanceReal'
-import Swipeable from 'react-native-gesture-handler/Swipeable'
-
 import { AuthContext } from '../../../contexts/contextApi'
 import ModalPasswordContratoServico from '../../modais/modalPasswordContServ'
 import { useNavigation } from '@react-navigation/native'
@@ -52,7 +50,6 @@ export const CardServiceContractBulletin: React.FC<props> = ({ datas }: props) =
 
   const [modalPassword, setModalPassword] = useState(false)
   const [bgColor, setBgColor] = useState('#FFFFFF')
-  const swipeableRef = useRef(null)
 
   const dateInic = new Date(datas.item.BOCS_DT_INICIO)
   const dateFim = new Date(datas.item.BOCS_DT_FIM)
@@ -89,17 +86,6 @@ export const CardServiceContractBulletin: React.FC<props> = ({ datas }: props) =
       )
       setBgColor('#FFFFFF')
     }
-  }
-
-  const handleLeft = () => {
-    setArrayContratoServicoBulletin((arrayContratoServicoBulletin: IarrayContratoServicoBulletin[]) => [...arrayContratoServicoBulletin, {
-      cod,
-      posAss: assPos,
-      valor: valorTotal + '',
-      cereCod,
-      fornCod
-    }])
-    setModalPassword(!modalPassword)
   }
 
   const backAction = () => {
@@ -158,35 +144,8 @@ export const CardServiceContractBulletin: React.FC<props> = ({ datas }: props) =
     return () =>
       BackHandler.removeEventListener('hardwareBackPress', backAction)
   }, [])
-
-  const leftAction = () => {
-    return (
-      <View
-        style={styles.buttonAprovar}
-      >
-
-        <Text
-          style={[styles.textBtn]}
-        >
-
-          Contrato aprovado
-
-        </Text>
-
-      </View>
-    )
-  }
-
-  const closeSwipeable = () => {
-    swipeableRef.current.close()
-  }
-
   return (
-    <Swipeable
-      renderLeftActions={leftAction}
-      onSwipeableOpen={handleLeft}
-      ref={swipeableRef}
-    >
+    <View>
       <TouchableOpacity
         style={[styles.card, {
           backgroundColor: `${bgColor}`
@@ -209,7 +168,7 @@ export const CardServiceContractBulletin: React.FC<props> = ({ datas }: props) =
 
         <View style={styles.cardTextArea}>
           <Text style={styles.cardTextTitle}>Valor : </Text>
-          <Text style={styles.cardTextBody}>{changeReal(valorTotal + '')}</Text>
+          <Text style={styles.cardTextBody}>{changeReal(valorTotal)}</Text>
         </View>
 
         <View style={styles.cardTextArea}>
@@ -236,11 +195,10 @@ export const CardServiceContractBulletin: React.FC<props> = ({ datas }: props) =
         <ModalPasswordContratoServico
           func={() => {
             setModalPassword(!modalPassword)
-            closeSwipeable()
             setBgState(!bgState)
           }}
         />
       </Modal>
-    </Swipeable>
+    </View>
   )
 }

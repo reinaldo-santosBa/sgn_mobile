@@ -58,9 +58,6 @@ const DetailsPurchaseWorksheet: React.FC = ({ route }: params) => {
           const acessToken = json.data.acessToken
           axios.get(`${url}${version}/planilhaDeCompra/fornecedor/${route.params.PLAC_COD}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((response) => {
-              console.log('====================================')
-              console.log(response.data)
-              console.log('====================================')
               setResponseForn(response.data)
 
               setLoading(true)
@@ -94,9 +91,6 @@ const DetailsPurchaseWorksheet: React.FC = ({ route }: params) => {
           axios.get(`${url}${version}/planilhaDeCompra/solicitacao/${route.params.PLAC_COD}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((response) => {
               setResponseSoli(response.data)
-              console.log('====================================')
-              console.log(response.data)
-              console.log('====================================')
               setLoading(true)
             })
             .catch((error) => {

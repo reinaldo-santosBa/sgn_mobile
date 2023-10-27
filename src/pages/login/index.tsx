@@ -77,7 +77,6 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
       setLoading(false)
       return
     }
-
     axios({
       method: 'get',
       url: `${linkSGN}/${version}/dataConnection/${cnpjLogin}`
@@ -85,10 +84,9 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
       .then((resp) => {
         setUrl(resp.data.message.DACO_URL)
         setDataBase(resp.data.message.DACO_DATABASE)
-        setCNPJ(cnpj)
+        setCNPJ(cnpjLogin)
         axios.post(`${resp.data.message.DACO_URL}${version}/usuario/login`,
           {
-
             USUA_SIGLA: usuaSigla,
             USUA_SENHA_APP: usuaSenha,
             DATABASE: resp.data.message.DACO_DATABASE,
@@ -103,7 +101,6 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
               setPassword('')
               navigation.navigate('Home')
             }
-
           )
           .catch((error) => {
             setPassword('')
@@ -125,6 +122,9 @@ const Login: React.FC<LoginProps> = ({ navigation }: LoginProps) => {
       })
       .catch((error) => {
         setLoading(false)
+        console.log('====================================')
+        console.log(error)
+        console.log('====================================')
         if (error.response) {
           setErr(true)
           setMessage([error.response.data.message])

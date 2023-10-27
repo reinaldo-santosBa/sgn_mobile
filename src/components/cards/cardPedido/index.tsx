@@ -2,7 +2,6 @@ import { TouchableOpacity, Text, View, Modal, BackHandler } from 'react-native'
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import styles from './styles'
 import changeReal from '../../../utils/chanceReal'
-import Swipeable from 'react-native-gesture-handler/Swipeable'
 
 import ModalPassword from '../../modais/modalPassword'
 import { AuthContext } from '../../../contexts/contextApi'
@@ -87,10 +86,6 @@ const CardPedido: React.FC<props> = ({ datas }: props) => {
 
   fornecedor.length > 18 ? fornecedorFormated = fornecedor.slice(0, 18) + '...' : fornecedorFormated = fornecedor
 
-  const handleLeft = () => {
-    setModalPassword(!modalPassword)
-  }
-
   const handleClick = () => {
     if (arrayPedido.length === 0) {
       navigation.navigate('DetalhePedido', {
@@ -145,96 +140,67 @@ const CardPedido: React.FC<props> = ({ datas }: props) => {
       BackHandler.removeEventListener('hardwareBackPress', backAction)
   }, [])
 
-  const leftAction = () => {
-    return (
-      <View
-        style={styles.buttonAprovar}
-      >
-
-        <Text
-          style={[styles.textBtn]}
-        >
-
-          Pedido aprovado
-
-        </Text>
-
-      </View>
-    )
-  }
-
   const closeSwipeable = () => {
     swipeableRef.current.close()
   }
 
   return (
-    <Swipeable
-      ref={swipeableRef}
-      renderLeftActions={leftAction}
-      onSwipeableOpen={(direction) => {
-        if (direction === 'left') {
-          handleLeft()
-        }
-      }}
+    <Animated.View>
+      <TouchableOpacity
+        style={[styles.card, {
+          backgroundColor: `${bgColor}`
+        }]}
+        onPress={() => {
+          handleClick()
+        }}
+        onLongPress={() => {
+          handleLongPress()
+        }}
+      >
 
-    >
-      <Animated.View>
-        <TouchableOpacity
-          style={[styles.card, {
-            backgroundColor: `${bgColor}`
-          }]}
-          onPress={() => {
-            handleClick()
-          }}
-          onLongPress={() => {
-            handleLongPress()
-          }}
-        >
+        <View style={styles.cardTopTextArea}>
 
-          <View style={styles.cardTopTextArea}>
+          <Text style={styles.cardTopTextLeft}>{datas.item.PEDI_NUMERO}</
+          Text>
+          <Text style={styles.cardTopTextRight}>{dates + ' / ' + monthFormat + ' / ' + date.getFullYear()}</Text>
 
-            <Text style={styles.cardTopTextLeft}>{datas.item.PEDI_NUMERO}</
-            Text>
-            <Text style={styles.cardTopTextRight}>{dates + ' / ' + monthFormat + ' / ' + date.getFullYear()}</Text>
+        </View>
 
-          </View>
+        <View style={styles.cardTextArea}>
+          <Text style={styles.cardTextTitle}>Valor : </Text>
+          <Text style={styles.cardTextBody}>{changeReal(Number(valorTotal))}</Text>
+        </View>
 
-          <View style={styles.cardTextArea}>
-            <Text style={styles.cardTextTitle}>Valor : </Text>
-            <Text style={styles.cardTextBody}>{changeReal(Number(valorTotal))}</Text>
-          </View>
-
-          <View style={styles.cardTextArea}>
-            <Text style={styles.cardTextTitle}>Fornecedor : </Text>
-            <Text style={styles.cardTextBody}>{fornecedorFormated}</Text>
-          </View>
-        </TouchableOpacity>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalPassword}
-          onRequestClose={() => {
+        <View style={styles.cardTextArea}>
+          <Text style={styles.cardTextTitle}>Fornecedor : </Text>
+          <Text style={styles.cardTextBody}>{fornecedorFormated}</Text>
+        </View>
+      </TouchableOpacity>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalPassword}
+        onRequestClose={() => {
+          setModalPassword(!modalPassword)
+        }}
+      >
+        <ModalPassword
+          func={() => {
             setModalPassword(!modalPassword)
+            setBgColor('#fff')
+            closeSwipeable()
           }}
-        >
-          <ModalPassword
-            func={() => {
-              setModalPassword(!modalPassword)
-              setBgColor('#fff')
-              closeSwipeable()
-            }}
-            posAss={assPos}
-            cod={cod}
-            responseFunc={() => {
-              setAtt(!att)
-            }}
-            fornCod={datas.item.PEDI_FORN_COD}
-            valTotal={valorTotal}
-            pediNumero={datas.item.PEDI_NUMERO}
-          />
-        </Modal>
-      </Animated.View>
-    </Swipeable>
+          posAss={assPos}
+          cod={cod}
+          responseFunc={() => {
+            setAtt(!att)
+          }}
+          fornCod={datas.item.PEDI_FORN_COD}
+          valTotal={valorTotal}
+          pediNumero={datas.item.PEDI_NUMERO}
+        />
+      </Modal>
+    </Animated.View>
   )
 }
 

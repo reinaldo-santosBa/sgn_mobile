@@ -61,7 +61,6 @@ const ModalPassword: React.FC<props> = ({ func, posAss, cod, fornCod, valTotal, 
           config
         ).then((json) => {
           setMessage([json.data.message])
-          console.log(json.data.message)
           setErr(false)
           setModal(!modal)
           setAtt(!att)
@@ -69,7 +68,6 @@ const ModalPassword: React.FC<props> = ({ func, posAss, cod, fornCod, valTotal, 
           .catch((error) => {
             if (error.response) {
               setErr(true)
-              console.log(error.response.data.message)
               setMessage([error.response.data.message])
               setModal(!modal)
             } else if (error.request) {

@@ -41,14 +41,11 @@ const ModalSelectUnidMat: React.FC<props> = ({ onChange, modalChange, setUnidMat
             )
               .then((resp) => {
                 setLoading(true)
-                console.log('====================================')
-                console.log(resp.data.message)
-                console.log('====================================')
                 setResponse(resp.data.message)
                 setList(resp.data.message)
               })
               .catch((e) => {
-                console.log(e.response.data)
+                alert(e.response.data)
               })
           })
           .catch(() => {

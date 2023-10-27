@@ -22,12 +22,17 @@ interface Ibtn {
 const MenuButton: React.FC<Ibtn> = ({ number, image, text, onPress, response, response2 }: Ibtn) => {
   const [disabled, setDisabled] = useState(true)
   useEffect(() => {
+    // response.forEach((element1: IRespondeBd) => {
+    //   response2.forEach((element2: IRespondeBd2) => {
+    //     if (Number(element1.REEA_APLI_COD) === number && Number(element2.USAM_APLIC_COD) === Number(element1.REEA_APLI_COD)) {
+    //       setDisabled(false)
+    //     }
+    //   })
+    // })
     response.forEach((element1: IRespondeBd) => {
-      response2.forEach((element2: IRespondeBd2) => {
-        if (Number(element1.REEA_APLI_COD) === number && Number(element2.USAM_APLIC_COD) === Number(element1.REEA_APLI_COD)) {
-          setDisabled(false)
-        }
-      })
+      if (Number(element1.REEA_APLI_COD) === number) {
+        setDisabled(false)
+      }
     })
   })
 

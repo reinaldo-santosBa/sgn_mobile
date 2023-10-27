@@ -11,9 +11,8 @@
       }
     },
     "preview": {
-      "distribution": "store",
-      "ios": {
-        "resourceClass": "m-medium"
+      "android": {
+        "buildType": "apk"
       }
     },
     "production": {

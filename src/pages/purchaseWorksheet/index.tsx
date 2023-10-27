@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Container from '../../components/container'
-import { FlatList } from 'react-native-gesture-handler'
 import { AuthContext } from '../../contexts/contextApi'
-import { ActivityIndicator, Modal } from 'react-native'
+import { ActivityIndicator, FlatList, Modal } from 'react-native'
 import ModalPasswordContratoServico from '../../components/modais/modalPasswordContServ'
 import BtnFilter from '../../components/buttons/btnFilter'
 import MenuConainer from '../../components/menu/menuContainerCompras'
@@ -50,9 +49,6 @@ const PurchaseWorksheet: React.FC = () => {
         axios.get(`${url}${version}/planilhaDeCompra`, { headers: { Authorization: `Bearer ${acessToken}` } })
           .then((json) => {
             setResponse(json.data)
-            console.log('====================================')
-            console.log(json.data)
-            console.log('====================================')
             setLoading(true)
           })
           .catch((error) => {

@@ -52,7 +52,6 @@ const ModalPasswordWorksheet: React.FC<props> = ({ func }) => {
           config
         ).then((json) => {
           setMessage([json.data])
-          console.log(json.data)
           setErr(false)
           setModal(!modal)
           setAtt(!att)
@@ -61,7 +60,6 @@ const ModalPasswordWorksheet: React.FC<props> = ({ func }) => {
           .catch((error) => {
             if (error.response) {
               setErr(true)
-              console.log(error.response.data)
               setMessage([error.response.data])
               setModal(!modal)
             } else if (error.request) {

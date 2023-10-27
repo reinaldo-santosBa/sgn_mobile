@@ -1,7 +1,6 @@
 import { TouchableOpacity, Text, View, BackHandler } from 'react-native'
-import React, { useState, useContext, useEffect, useRef, SetStateAction } from 'react'
+import React, { useState, useContext, useEffect, SetStateAction } from 'react'
 import styles from './styles'
-import Swipeable from 'react-native-gesture-handler/Swipeable'
 
 import { AuthContext } from '../../../contexts/contextApi'
 import Animated from 'react-native-reanimated'
@@ -31,21 +30,13 @@ const CardPurchaseWorksheet: React.FC<props> = ({ datas }: props) => {
     bgState
   } = useContext(AuthContext)
 
-  const [modalPassword, setModalPassword] = useState(false)
-
   const [bgColor, setBgColor] = useState('#FFFFFF')
-
-  const swipeableRef = useRef(null)
 
   useEffect(
     () => {
       setBgColor('#FFFFFF')
     }, [bgState]
   )
-
-  const handleLeft = () => {
-    setModalPassword(!modalPassword)
-  }
 
   const handleClick = () => {
     if (arrayPurchaseWorksheet.length === 0) {
@@ -75,35 +66,7 @@ const CardPurchaseWorksheet: React.FC<props> = ({ datas }: props) => {
       BackHandler.removeEventListener('hardwareBackPress', backAction)
   }, [])
 
-  const leftAction = () => {
-    return (
-      <View
-        style={styles.buttonAprovar}
-      >
-
-        <Text
-          style={[styles.textBtn]}
-        >
-
-          Planilha aprovada aprovado
-
-        </Text>
-
-      </View>
-    )
-  }
-
   return (
-    <Swipeable
-      ref={swipeableRef}
-      renderLeftActions={leftAction}
-      onSwipeableOpen={(direction) => {
-        if (direction === 'left') {
-          handleLeft()
-        }
-      }}
-
-    >
       <Animated.View>
 
         <TouchableOpacity
@@ -139,7 +102,6 @@ const CardPurchaseWorksheet: React.FC<props> = ({ datas }: props) => {
         </TouchableOpacity>
 
       </Animated.View>
-    </Swipeable>
   )
 }
 

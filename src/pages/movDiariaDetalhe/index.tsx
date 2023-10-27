@@ -52,9 +52,6 @@ const MovDiariaDetalhe: React.FC = ({ route }: params) => {
             (resp) => {
               setResponse(resp.data)
               setLoading(true)
-              console.log('====================================')
-              console.log(resp)
-              console.log('====================================')
             }
           )
           .catch(

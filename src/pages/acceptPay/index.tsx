@@ -109,9 +109,6 @@ const AcceptPay: React.FC = () => {
           axios.get(`${url}${version}/pagar/fornecedor/` + supplierCod, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
-              console.log('====================================')
-              console.log('certo')
-              console.log('====================================')
             })
             .catch((error) => {
               if (error.response) {
@@ -172,9 +169,6 @@ const AcceptPay: React.FC = () => {
           axios.get(`${url}${version}/pagar/numero/` + inputNum, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
-              console.log('====================================')
-              console.log('certo')
-              console.log('====================================')
             })
             .catch((error) => {
               if (error.response) {
@@ -205,9 +199,6 @@ const AcceptPay: React.FC = () => {
           axios.get(`${url}${version}/pagar/cr/` + crCod, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
-              console.log('====================================')
-              console.log('certo')
-              console.log('====================================')
             })
             .catch((error) => {
               if (error.response) {
@@ -243,14 +234,8 @@ const AcceptPay: React.FC = () => {
           axios.get(`${url}${version}/pagar/periodo/${dtFormatadaRequestIni}/${dtFormatadaRequestEnd}`, { headers: { Authorization: `Bearer ${acessToken}` } })
             .then((json) => {
               setResponse(json.data)
-              console.log('====================================')
-              console.log('certo')
-              console.log('====================================')
             })
             .catch((error) => {
-              console.log('====================================')
-              console.log(error)
-              console.log('====================================')
               if (error.response) {
                 setArrayPagar([])
                 setMessage([error.response.data])

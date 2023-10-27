@@ -47,7 +47,7 @@ const ModalSelectSupplier: React.FC<props> = ({ onChange, modalChange, setSuppli
                 setList(resp.data)
               })
               .catch((e) => {
-                console.log(e.response.data)
+                alert(e.response.data)
               })
           })
           .catch(() => {

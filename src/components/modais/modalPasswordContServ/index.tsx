@@ -37,9 +37,6 @@ const ModalPasswordContratoServico: React.FC<props> = ({ func }) => {
           password,
           arrayCocs: arrayContratoServico
         }
-        console.log('====================================')
-        console.log(`${url}${version}`)
-        console.log('====================================')
         axios.patch(
           `${url}${version}/contratoServico`,
           bodyParameters,
@@ -54,9 +51,6 @@ const ModalPasswordContratoServico: React.FC<props> = ({ func }) => {
         })
           .catch(
             (error) => {
-              console.log('====================================')
-              console.log(error.response)
-              console.log('====================================')
               if (error.response) {
                 setArrayContratoServico([])
                 setMessage(error.response.data)
@@ -79,9 +73,6 @@ const ModalPasswordContratoServico: React.FC<props> = ({ func }) => {
           )
       })
       .catch(() => {
-        console.log('====================================')
-        console.log(1)
-        console.log('====================================')
         setModalAlert(!modalAlert)
       })
   }

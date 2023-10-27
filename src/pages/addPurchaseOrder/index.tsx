@@ -180,9 +180,7 @@ const AddPurchaseOrder: React.FC = () => {
                 setNumTodas(response.data[0].PAGE_TODAS_APROVACOES_SOLIC)
               })
               .catch((e) => {
-                console.log('====================================')
-                console.log('error: ' + e)
-                console.log('====================================')
+                alert('error: ' + e)
               })
           })
           .catch(
@@ -282,9 +280,6 @@ const AddPurchaseOrder: React.FC = () => {
               debitoDireto: btnDireto ? 'S' : 'N'
             }
           }
-          console.log('====================================')
-          console.log(arrayMaterial)
-          console.log('====================================')
           await axios.post(
             `${url}${version}/solicitacaoCompra/create`,
             bodyOption,
@@ -292,21 +287,12 @@ const AddPurchaseOrder: React.FC = () => {
           )
             .then((response) => {
               setText3(!text3)
-              console.log('====================================')
-              console.log(response)
-              console.log('====================================')
               alert(response.data.message)
               // navigation.navigate('SolicitacaoCompra')
             })
             .catch((e) => {
               alert(e.response)
-              console.log('====================================')
-              console.log(e.response.data)
-              console.log('====================================')
             })
-          console.log('====================================')
-          console.log(1)
-          console.log('====================================')
         })
         .catch(() => {
           navigation.navigate('Login')

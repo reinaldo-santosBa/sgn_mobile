@@ -47,7 +47,7 @@ const ModalSelectWerehouse: React.FC<props> = ({ onChange, modalChange, setAlmoD
                 setList(resp.data)
               })
               .catch((e) => {
-                console.log(e.response.data)
+                alert(e.response.data)
               })
           })
           .catch(() => {
